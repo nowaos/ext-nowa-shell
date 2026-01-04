@@ -1,0 +1,140 @@
+/* Main container with dock-style radius */
+.quick-settings {
+  background-color: #2e2e32;
+  border-radius: 18px;
+  padding: 14px !important; /* igual ao spacing entre os toggles */
+}
+
+/* Toggles and toggle-with-menu block */
+.quick-toggle,
+.quick-toggle-has-menu {
+  border-radius: 12px;
+}
+
+/* Border adjustments for LTR/RTL layouts */
+.quick-toggle-has-menu .quick-toggle:ltr {
+  border-radius: 12px 0 0 12px;
+}
+.quick-toggle-has-menu .quick-toggle:rtl {
+  border-radius: 0 12px 12px 0;
+}
+.quick-toggle-has-menu .quick-toggle:ltr:last-child,
+.quick-toggle-has-menu .quick-toggle:rtl:last-child {
+  border-radius: 12px;
+}
+.quick-toggle-has-menu .quick-toggle-menu-button:ltr {
+  border-radius: 0 12px 12px 0;
+}
+.quick-toggle-has-menu .quick-toggle-menu-button:rtl {
+  border-radius: 12px 0 0 12px;
+}
+
+/* Remove separator line between toggle and menu button */
+.quick-toggle-has-menu .quick-toggle-separator {
+  background-color: transparent;
+  width: 0;
+}
+
+/* UNCHECKED state (solid gray) — toggle and menu button identical */
+.quick-toggle,
+.quick-toggle-has-menu .quick-toggle-menu-button {
+  color: #ffffff;
+  background-color: #47474c;
+}
+
+/* Hover */
+.quick-toggle:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:hover {
+  color: #ffffff;
+  background-color: st-lighten(#47474c, 4%);
+}
+
+/* Active */
+.quick-toggle:active,
+.quick-toggle-has-menu .quick-toggle-menu-button:active,
+.quick-toggle:active:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:active:hover {
+  color: #ffffff;
+  background-color: st-lighten(#47474c, 8%);
+}
+
+/* Focus */
+.quick-toggle:focus,
+.quick-toggle-has-menu .quick-toggle-menu-button:focus,
+.quick-toggle:focus:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:focus:hover {
+  background-color: st-lighten(#4a4a4f, 10%);
+}
+
+/* CHECKED state (accent color solid) — toggle and menu button identical */
+.quick-toggle:checked,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked {
+  background-color: -st-accent-color;
+  color: -st-accent-fg-color;
+}
+
+/* Hover */
+.quick-toggle:checked:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:hover {
+  background-color: st-lighten(-st-accent-color, 4%);
+}
+
+/* Active */
+.quick-toggle:checked:active,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:active,
+.quick-toggle:checked:active:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:active:hover {
+  background-color: st-lighten(-st-accent-color, 8%);
+}
+
+/* Focus */
+.quick-toggle:checked:focus,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:focus,
+.quick-toggle:checked:focus:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:focus:hover {
+  background-color: st-lighten(-st-accent-color, 10%);
+}
+
+/* Slider with Big Sur rounded corners */
+.quick-slider .slider-bin {
+  border-radius: 12px;
+}
+
+/* Submenus (like sound output selection) with same border-radius as toggles */
+.quick-toggle-menu,
+.quick-toggle-menu .popup-menu-item,
+.quick-toggle-menu .header {
+  border-radius: 12px;
+}
+
+/* Header icons with subtle rounding */
+.quick-toggle-menu .header .icon {
+  border-radius: 8px;
+}
+
+/* Top buttons (power, screenshot, etc.) styled as square toggles */
+.quick-settings .icon-button,
+.quick-slider .icon-button,
+.screenshot-ui-show-pointer-button,
+.message .message-header .message-close-button,
+.message .message-header .message-expand-button,
+.message-notification-group .message-collapse-button,
+.calendar .calendar-month-header .pager-button,
+.login-dialog-button.cancel-button,
+.login-dialog-button.switch-user-button,
+.login-dialog-button.login-dialog-session-list-button {
+  border-radius: 12px;
+}
+
+/* Calendar (popover e conteúdo) */
+.datemenu-popover,
+.popup-menu-content {
+  background-color: #2e2e32;
+  border-radius: 18px !important;
+}
+
+.calendar .calendar-day.calendar-today {
+  border-radius: 6px; /* quadrado arredondado */
+  background-color: -st-accent-color; /* mantém destaque com a cor de acento */
+  color: -st-accent-fg-color; /* texto em contraste */
+}

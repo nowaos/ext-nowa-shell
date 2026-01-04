@@ -1,0 +1,10 @@
+{
+  "name": "Nowa Shell",
+  "description": "GNOME Shell interface customizations with modern rounded design",
+  "uuid": "nowa-shell@nowaos",
+  "shell-version": [
+    "48"
+  ],
+  "url": "https://github.com/nowaos/ext-nowa-shell",
+  "version": 1
+}
