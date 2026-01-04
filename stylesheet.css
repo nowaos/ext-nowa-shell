@@ -95,46 +95,92 @@
   background-color: st-lighten(-st-accent-color, 10%);
 }
 
-/* Slider with Big Sur rounded corners */
+/* Slider with rounded corners */
 .quick-slider .slider-bin {
   border-radius: 12px;
 }
 
 /* Submenus (like sound output selection) with same border-radius as toggles */
-.quick-toggle-menu,
+.quick-toggle-menu {
+  border-radius: 12px;
+  padding: 12px 6px 6px 6px;
+  margin: 12px;
+}
+
 .quick-toggle-menu .popup-menu-item,
 .quick-toggle-menu .header {
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
 /* Header icons with subtle rounding */
 .quick-toggle-menu .header .icon {
   border-radius: 8px;
+  width: 0;
+  height: 0;
+  padding: 0;
+  opacity: 0;
 }
 
-/* Top buttons (power, screenshot, etc.) styled as square toggles */
-.quick-settings .icon-button,
-.quick-slider .icon-button,
-.screenshot-ui-show-pointer-button,
-.message .message-header .message-close-button,
-.message .message-header .message-expand-button,
-.message-notification-group .message-collapse-button,
-.calendar .calendar-month-header .pager-button,
-.login-dialog-button.cancel-button,
-.login-dialog-button.switch-user-button,
-.login-dialog-button.login-dialog-session-list-button {
-  border-radius: 12px;
+.login-dialog .user-widget.horizontal .user-widget-label,
+.unlock-dialog .user-widget.horizontal .user-widget-label, .quick-toggle-menu .header .title, .message-list .message-list-placeholder {
+  font-weight: 600;
+  font-size: 1em;
 }
 
 /* Calendar (popover e conteúdo) */
+
 .datemenu-popover,
 .popup-menu-content {
   background-color: #2e2e32;
   border-radius: 18px !important;
 }
 
+/* Forçar fundo e texto do calendário */
+.calendar .calendar-month-header .calendar-month-label,
+.calendar .calendar-month-header .pager-button,
+.calendar .calendar-day-heading,
+.calendar .calendar-day {
+  background-color: #2e2e32;
+  border-color: transparent;
+}
+
+/* Ajustar hover/active para não voltar ao cinza antigo */
+.calendar .calendar-month-header .calendar-month-label:hover,
+.calendar .calendar-month-header .pager-button:hover,
+.calendar .calendar-day-heading:hover,
+.calendar .calendar-day:hover {
+  background-color: #3a3a3f;
+}
+
 .calendar .calendar-day.calendar-today {
-  border-radius: 6px; /* quadrado arredondado */
-  background-color: -st-accent-color; /* mantém destaque com a cor de acento */
-  color: -st-accent-fg-color; /* texto em contraste */
+  border-radius: 6px;
+  background-color: -st-accent-color;
+  color: -st-accent-fg-color;
+}
+
+
+/* Buttons */
+
+.quick-settings .quick-settings-system-item .icon-button {
+  background-color: #47474c;
+}
+
+.quick-settings .quick-settings-system-item .icon-button:hover {
+  background-color: st-lighten(#47474c, 4%);
+}
+
+.quick-settings .quick-settings-system-item .icon-button:active {
+  background-color: st-lighten(#47474c, 8%);
+}
+
+.quick-slider .icon-button {
+  background-color: #2e2e32;
+}
+
+.quick-slider .icon-button:hover {
+  background-color: st-lighten(#2e2e32, 4%);
+}
+
+.quick-slider .icon-button:active {
+  background-color: st-lighten(#2e2e32, 8%);
 }
