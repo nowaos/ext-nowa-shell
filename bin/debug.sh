@@ -33,7 +33,7 @@ fi
 
 echo ""
 echo "======================================"
-echo "📋 Live Logs (Ctrl+C to stop):"
+echo "Live Logs (Ctrl+C to stop):"
 echo "======================================"
 echo ""
 echo "Looking for 'Nowa Shell' messages..."

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
   <schema id="org.gnome.shell.extensions.nowa-shell" path="/org/gnome/shell/extensions/nowa-shell/">
-    <!-- Future settings will go here -->
+    <key name="minify-calendar" type="b">
+      <default>false</default>
+      <summary>Minify Calendar</summary>
+      <description>Hide World Clocks and Weather sections from the calendar popup</description>
+    </key>
   </schema>
 </schemalist>

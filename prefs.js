@@ -3,25 +3,44 @@
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import Adw from 'gi://Adw';
+import Gtk from 'gi://Gtk';
+import Gio from 'gi://Gio';
 
 export default class NowaShellPreferences extends ExtensionPreferences {
   fillPreferencesWindow(window) {
+    const settings = this.getSettings()
+
     const page = new Adw.PreferencesPage({
       title: 'General',
       icon_name: 'dialog-information-symbolic',
     })
 
     const group = new Adw.PreferencesGroup({
-      title: 'Nowa Shell',
-      description: 'Modern GNOME Shell interface with rounded corners',
+      title: 'Calendar',
     })
 
-    const infoRow = new Adw.ActionRow({
-      title: 'Version 1.0',
-      subtitle: 'Styling applied automatically via stylesheet.css',
+    // Minify Calendar toggle
+    const minifyCalendarRow = new Adw.ActionRow({
+      title: 'Minify Calendar',
+      subtitle: 'Hide World Clocks and Weather sections',
     })
 
-    group.add(infoRow)
+    const minifyCalendarSwitch = new Gtk.Switch({
+      active: settings.get_boolean('minify-calendar'),
+      valign: Gtk.Align.CENTER,
+    })
+
+    settings.bind(
+      'minify-calendar',
+      minifyCalendarSwitch,
+      'active',
+      Gio.SettingsBindFlags.DEFAULT
+    )
+
+    minifyCalendarRow.add_suffix(minifyCalendarSwitch)
+    minifyCalendarRow.activatable_widget = minifyCalendarSwitch
+
+    group.add(minifyCalendarRow)
     page.add(group)
     window.add(page)
   }

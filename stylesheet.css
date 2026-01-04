@@ -161,6 +161,19 @@
 
 /* Buttons */
 
+/* Top buttons (power, screenshot, etc.) styled as square toggles */
+/* .quick-slider .icon-button,
+.screenshot-ui-show-pointer-button,
+.message .message-header .message-close-button,
+.message .message-header .message-expand-button,
+.message-notification-group .message-collapse-button,
+.calendar .calendar-month-header .pager-button,
+.login-dialog-button.cancel-button,
+.login-dialog-button.switch-user-button,
+.login-dialog-button.login-dialog-session-list-button {
+  border-radius: 12px;
+} */
+
 .quick-settings .quick-settings-system-item .icon-button {
   background-color: #47474c;
 }
@@ -183,4 +196,14 @@
 
 .quick-slider .icon-button:active {
   background-color: st-lighten(#2e2e32, 8%);
+}
+
+/* Minify Calendar - Hide Weather and World Clocks */
+.nowa-shell-no-weather .weather-button,
+.nowa-shell-no-weather .weather-button * {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  height: 0;
+  width: 0;
 }
