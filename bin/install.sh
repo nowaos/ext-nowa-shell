@@ -34,6 +34,7 @@ cp "$PROJECT_ROOT/extension.js" "$EXTENSION_DIR/"
 cp "$PROJECT_ROOT/metadata.json" "$EXTENSION_DIR/"
 cp "$PROJECT_ROOT/stylesheet.css" "$EXTENSION_DIR/"
 cp "$PROJECT_ROOT/prefs.js" "$EXTENSION_DIR/"
+cp -r "$PROJECT_ROOT/assets" "$EXTENSION_DIR/"
 cp -r "$PROJECT_ROOT/src" "$EXTENSION_DIR/"
 
 # Copy and compile schema

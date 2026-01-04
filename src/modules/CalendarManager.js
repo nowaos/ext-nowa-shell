@@ -2,6 +2,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import { Logger } from '../services/Logger.js'
+import Clutter from 'gi://Clutter'
+import St from 'gi://St'
+import Gio from 'gi://Gio'
 
 /**
  * CalendarManager - Manages calendar minification features
@@ -11,12 +14,16 @@ import { Logger } from '../services/Logger.js'
 export class CalendarManager {
   #settings
   #main
+  #extension
   #signalIds = []
   #originals = {}
+  #monthLabelClickId = null
+  #stylesheetLoaded = false
 
-  constructor(settings, main) {
+  constructor(settings, main, extension) {
     this.#settings = settings
     this.#main = main
+    this.#extension = extension
   }
 
   /**
@@ -46,8 +53,9 @@ export class CalendarManager {
     this.#signalIds = []
 
     // Restore original states
-    this.#showWeather()
+    this.#unloadStylesheet()
     this.#showWorldClocks()
+    this.#removeMonthLabelClick()
   }
 
   /**
@@ -58,27 +66,63 @@ export class CalendarManager {
 
     if (minify) {
       Logger.log('CalendarManager: Minifying calendar')
-      this.#hideWeather()
+      this.#loadStylesheet()
       this.#hideWorldClocks()
+      this.#addMonthLabelClick()
     } else {
       Logger.log('CalendarManager: Restoring calendar')
-      this.#showWeather()
+      this.#unloadStylesheet()
       this.#showWorldClocks()
+      this.#removeMonthLabelClick()
     }
   }
 
   /**
-   * Hide weather section using CSS class
+   * Load minified calendar stylesheet
    */
-  #hideWeather() {
-    this.#main.layoutManager.uiGroup.add_style_class_name('nowa-shell-no-weather')
+  #loadStylesheet() {
+    if (this.#stylesheetLoaded) {
+      return
+    }
+
+    try {
+      const stylesheetPath = `${this.#extension.dir.get_path()}/assets/minified-calendar.css`
+      const stylesheetFile = Gio.File.new_for_path(stylesheetPath)
+
+      if (!stylesheetFile.query_exists(null)) {
+        Logger.log(`CalendarManager: CSS file not found: ${stylesheetPath}`)
+        return
+      }
+
+      const theme = St.ThemeContext.get_for_stage(global.stage).get_theme()
+      theme.load_stylesheet(stylesheetFile)
+
+      this.#stylesheetLoaded = true
+      Logger.log('CalendarManager: Stylesheet loaded')
+    } catch (e) {
+      Logger.log(`CalendarManager: Error loading stylesheet: ${e}`)
+    }
   }
 
   /**
-   * Show weather section
+   * Unload minified calendar stylesheet
    */
-  #showWeather() {
-    this.#main.layoutManager.uiGroup.remove_style_class_name('nowa-shell-no-weather')
+  #unloadStylesheet() {
+    if (!this.#stylesheetLoaded) {
+      return
+    }
+
+    try {
+      const stylesheetPath = `${this.#extension.dir.get_path()}/assets/minified-calendar.css`
+      const stylesheetFile = Gio.File.new_for_path(stylesheetPath)
+      const theme = St.ThemeContext.get_for_stage(global.stage).get_theme()
+
+      theme.unload_stylesheet(stylesheetFile)
+      this.#stylesheetLoaded = false
+      Logger.log('CalendarManager: Stylesheet unloaded')
+    } catch (e) {
+      Logger.log(`CalendarManager: Error unloading stylesheet: ${e}`)
+    }
   }
 
   /**
@@ -124,5 +168,61 @@ export class CalendarManager {
       delete this.#originals.clocksItemSync
       clocksItem._sync()
     }
+  }
+
+  /**
+   * Add click event to month label to return to today
+   */
+  #addMonthLabelClick() {
+    const dateMenu = this.#main.panel.statusArea.dateMenu
+    if (!dateMenu || !dateMenu._calendar) {
+      Logger.log('CalendarManager: calendar not found')
+      return
+    }
+
+    const calendar = dateMenu._calendar
+    const monthLabel = calendar._monthLabel
+
+    if (!monthLabel) {
+      Logger.log('CalendarManager: monthLabel not found')
+      return
+    }
+
+    // Make it reactive
+    monthLabel.reactive = true
+
+    // Add click handler
+    this.#monthLabelClickId = monthLabel.connect('button-press-event', () => {
+      Logger.log('CalendarManager: Month label clicked - going to today')
+      // Set calendar to today's date
+      const today = new Date()
+      calendar.setDate(today)
+      return Clutter.EVENT_STOP
+    })
+
+    Logger.log('CalendarManager: Month label click enabled')
+  }
+
+  /**
+   * Remove click event from month label
+   */
+  #removeMonthLabelClick() {
+    if (!this.#monthLabelClickId) {
+      return
+    }
+
+    const dateMenu = this.#main.panel.statusArea.dateMenu
+    if (!dateMenu || !dateMenu._calendar) {
+      return
+    }
+
+    const monthLabel = dateMenu._calendar._monthLabel
+    if (monthLabel) {
+      monthLabel.disconnect(this.#monthLabelClickId)
+      monthLabel.reactive = false
+    }
+
+    this.#monthLabelClickId = null
+    Logger.log('CalendarManager: Month label click disabled')
   }
 }

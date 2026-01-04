@@ -25,7 +25,7 @@ export default class NowaShellExtension extends Extension {
     const settings = this.getSettings()
 
     // Initialize Calendar Manager
-    this.#calendarManager = new CalendarManager(settings, Main)
+    this.#calendarManager = new CalendarManager(settings, Main, this)
     this.#calendarManager.enable()
   }
 

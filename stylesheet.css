@@ -184,13 +184,3 @@
 .quick-slider .icon-button:active {
   background-color: st-lighten(#2e2e32, 8%);
 }
-
-/* Minify Calendar - Hide Weather and World Clocks */
-.nowa-shell-no-weather .weather-button,
-.nowa-shell-no-weather .weather-button * {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  height: 0;
-  width: 0;
-}
