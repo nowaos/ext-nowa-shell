@@ -20,12 +20,12 @@ export class PowerButtonManager {
   #customMenuItems = []
   #systemActions = null
 
-  constructor(main) {
+  constructor (main) {
     this.#main = main
     this.#systemActions = SystemActions.getDefault()
   }
 
-  enable() {
+  enable () {
     Logger.log('PowerButtonManager: Enabling')
 
     this.#quickSettings = this.#main.panel.statusArea.quickSettings
@@ -96,7 +96,7 @@ export class PowerButtonManager {
     Logger.log('PowerButtonManager: Enabled successfully')
   }
 
-  disable() {
+  disable () {
     Logger.log('PowerButtonManager: Disabling')
 
     // Restore Lock button visibility
@@ -152,7 +152,7 @@ export class PowerButtonManager {
     Logger.log('PowerButtonManager: Disabled successfully')
   }
 
-  #modifyMenu() {
+  #modifyMenu () {
     if (!this.#shutdownItem.menu) {
       Logger.log('PowerButtonManager: Shutdown button has no menu')
       return
@@ -202,7 +202,7 @@ export class PowerButtonManager {
     }
   }
 
-  #addCustomMenuItem(label, iconName, callback) {
+  #addCustomMenuItem (label, iconName, callback) {
     const item = new PopupMenu.PopupImageMenuItem(label, iconName)
     item.connect('activate', () => {
       Logger.log(`PowerButtonManager: ${label} activated`)
