@@ -16,7 +16,7 @@ echo ""
 
 # Check if extension is installed
 if [ -d "$EXTENSION_DIR" ]; then
-  echo -e "${GREEN}✓ Extension directory exists${NC}"
+  echo -e "${GREEN}✓${NC} Extension directory exists"
 else
   echo "✗ Extension directory NOT found"
   exit 1
@@ -24,7 +24,7 @@ fi
 
 # Check if enabled
 if gnome-extensions list --enabled | grep -q "$EXTENSION_UUID"; then
-  echo -e "${GREEN}✓ Extension is ENABLED${NC}"
+  echo -e "${GREEN}✓${NC} Extension is ENABLED"
 else
   echo "✗ Extension is DISABLED"
   echo "  Run: gnome-extensions enable $EXTENSION_UUID"
