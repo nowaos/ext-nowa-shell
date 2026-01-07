@@ -1,8 +1,13 @@
-/* Main container with dock-style radius */
-.quick-settings {
-  background-color: #2e2e32;
+/* === GENERAL === */
+
+.popup-menu-content {
   border-radius: 18px;
-  padding: 12px; /* igual ao spacing entre os toggles */
+}
+
+/* === QUICK SETTINGS === */
+
+.quick-settings {
+  padding: 12px;
 }
 
 /* Toggles and toggle-with-menu block */
@@ -35,71 +40,6 @@
   width: 0;
 }
 
-/* UNCHECKED state (solid gray) — toggle and menu button identical */
-.quick-toggle,
-.quick-toggle-has-menu .quick-toggle-menu-button {
-  color: #ffffff;
-  background-color: #47474c;
-}
-
-/* Hover */
-.quick-toggle:hover,
-.quick-toggle-has-menu .quick-toggle-menu-button:hover {
-  color: #ffffff;
-  background-color: st-lighten(#47474c, 4%);
-}
-
-/* Active */
-.quick-toggle:active,
-.quick-toggle-has-menu .quick-toggle-menu-button:active,
-.quick-toggle:active:hover,
-.quick-toggle-has-menu .quick-toggle-menu-button:active:hover {
-  color: #ffffff;
-  background-color: st-lighten(#47474c, 8%);
-}
-
-/* Focus */
-.quick-toggle:focus,
-.quick-toggle-has-menu .quick-toggle-menu-button:focus,
-.quick-toggle:focus:hover,
-.quick-toggle-has-menu .quick-toggle-menu-button:focus:hover {
-  background-color: st-lighten(#4a4a4f, 10%);
-}
-
-/* CHECKED state (accent color solid) — toggle and menu button identical */
-.quick-toggle:checked,
-.quick-toggle-has-menu .quick-toggle-menu-button:checked {
-  background-color: -st-accent-color;
-  color: -st-accent-fg-color;
-}
-
-/* Hover */
-.quick-toggle:checked:hover,
-.quick-toggle-has-menu .quick-toggle-menu-button:checked:hover {
-  background-color: st-lighten(-st-accent-color, 4%);
-}
-
-/* Active */
-.quick-toggle:checked:active,
-.quick-toggle-has-menu .quick-toggle-menu-button:checked:active,
-.quick-toggle:checked:active:hover,
-.quick-toggle-has-menu .quick-toggle-menu-button:checked:active:hover {
-  background-color: st-lighten(-st-accent-color, 8%);
-}
-
-/* Focus */
-.quick-toggle:checked:focus,
-.quick-toggle-has-menu .quick-toggle-menu-button:checked:focus,
-.quick-toggle:checked:focus:hover,
-.quick-toggle-has-menu .quick-toggle-menu-button:checked:focus:hover {
-  background-color: st-lighten(-st-accent-color, 10%);
-}
-
-/* Slider with rounded corners */
-.quick-slider .slider-bin {
-  border-radius: 12px;
-}
-
 /* Submenus (like sound output selection) with same border-radius as toggles */
 .quick-toggle-menu {
   border-radius: 12px;
@@ -114,78 +54,18 @@
 
 /* Header icons with subtle rounding */
 .quick-toggle-menu .header .icon {
-  border-radius: 8px;
   width: 0;
   height: 0;
   padding: 0;
   opacity: 0;
 }
 
-.login-dialog .user-widget.horizontal .user-widget-label,
-.unlock-dialog .user-widget.horizontal .user-widget-label, .quick-toggle-menu .header .title, .message-list .message-list-placeholder {
+.quick-toggle-menu .header .title {
   font-weight: 600;
   font-size: 1em;
 }
 
-/* Calendar (popover e conteúdo) */
-
-.datemenu-popover,
-.popup-menu-content {
-  background-color: #2e2e32;
-  border-radius: 18px;
-}
-
-/* Forçar fundo e texto do calendário */
-.calendar .calendar-month-header .calendar-month-label,
-.calendar .calendar-month-header .pager-button,
-.calendar .calendar-day-heading,
-.calendar .calendar-day {
-  background-color: #2e2e32;
-  border-color: transparent;
-}
-
-/* Ajustar hover/active para não voltar ao cinza antigo */
-.calendar .calendar-month-header .calendar-month-label:hover,
-.calendar .calendar-month-header .pager-button:hover,
-.calendar .calendar-day-heading:hover,
-.calendar .calendar-day:hover {
-  background-color: #3a3a3f;
-}
-
-.calendar .calendar-day.calendar-today {
-  border-radius: 6px;
-  background-color: -st-accent-color;
-  color: -st-accent-fg-color;
-}
-
-
-/* Buttons */
-
-.icon-button {
-  background-color: #47474c;
-}
-
-.icon-button:hover {
-  background-color: st-lighten(#47474c, 4%);
-}
-
-.icon-button:active {
-  background-color: st-lighten(#47474c, 8%);
-}
-
-.quick-slider .icon-button {
-  background-color: #2e2e32;
-}
-
-.quick-slider .icon-button:hover {
-  background-color: st-lighten(#2e2e32, 4%);
-}
-
-.quick-slider .icon-button:active {
-  background-color: st-lighten(#2e2e32, 8%);
-}
-
-/* Notifications */
+/* === NOTIFICATION PANEL === */
 
 .notification-default-mute-indicator {
   opacity: 0;
@@ -200,61 +80,37 @@
   padding: 0px;
 }
 
-.notification-empty-icon {
+.notification-menu-emptystate-icon {
   color: rgba(255, 255, 255, 0.4);
   margin-bottom: 1em;
 }
 
-.notification-empty-title {
+.notification-menu-emptystate-title {
   font-size: 1.2em;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 0.5em;
 }
 
-.notification-empty-label {
+.notification-menu-emptystate-label {
   font-weight: 400;
   font-size: 0.9em;
   color: rgba(255, 255, 255, 0.6);
 }
 
-.notification-controls {
+.notification-menu-controls {
   padding: 0 12px 12px 12px;
 }
 
-.notification-constrols-toggle.is-active {
+.notification-menu-constrols-toggle.is-active {
   background-color: -st-accent-color;
   color: -st-accent-fg-color;
 }
 
-.notification-scroll-view {
+.notification-menu-scroll-view {
   padding: 12px 0 0 12px;
   margin: 0;
 }
-
-.notification-item {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding-right: 0;
-  padding-left: 0;
-}
-
-.notification-item:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.notification-item-title {
-  font-weight: bold;
-  font-size: 1em;
-}
-
-.notification-item-body {
-  font-size: 0.9em;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 4px;
-}
-
-/* messages */
 
 .notification-menu .message {
   border-radius: 12px;

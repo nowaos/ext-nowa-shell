@@ -8,7 +8,7 @@ export default class NotificationList extends _BaseView {
 
   onCreate () {
     this.el = new St.ScrollView({
-      style_class: 'notification-scroll-view',
+      style_class: 'notification-menu-scroll-view',
       overlay_scrollbars: true,
       y_expand: true
     })

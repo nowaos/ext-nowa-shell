@@ -10,14 +10,14 @@ export default class NotificationControls extends _BaseView {
     const spacer = new St.Widget({ x_expand: true })
 
     this.el = new St.BoxLayout({
-      style_class: 'notification-controls',
+      style_class: 'notification-menu-controls',
       x_expand: true
     })
 
     // Mute button
 
     this.muteButton = new St.Button({
-      style_class: 'icon-button notification-constrols-toggle',
+      style_class: 'icon-button notification-menu-constrols-toggle',
       child: new St.Icon({
         icon_name: 'notification-disabled-symbolic',
         icon_size: 16,

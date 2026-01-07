@@ -14,20 +14,20 @@ export default class EmptyState extends _BaseView {
 
     const icon = new St.Icon({
       icon_name: 'notification-symbolic',
-      style_class: 'notification-empty-icon',
+      style_class: 'notification-menu-emptystate-icon',
       icon_size: 64,
     })
 
     const title = new St.Label({
       text: 'No notifications',
-      style_class: 'notification-empty-title',
+      style_class: 'notification-menu-emptystate-title',
       x_align: Clutter.ActorAlign.CENTER,
       y_align: Clutter.ActorAlign.CENTER,
     })
 
     const label = new St.Label({
       text: "You'll see all notifications here.",
-      style_class: 'notification-empty-label',
+      style_class: 'notification-menu-emptystate-label',
       x_align: Clutter.ActorAlign.CENTER,
       y_align: Clutter.ActorAlign.CENTER,
     })
