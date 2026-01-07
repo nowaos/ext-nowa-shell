@@ -279,5 +279,5 @@
 .notification-menu .media-message .message-header,
 .notification-menu .media-message .message-header .message-source-icon,
 .notification-menu .media-message .message-header .message-header-content {
-  color: st-lighten(st-mix(-st-accent-color, #54545a, 25%), 40%)
+  color: rgba(255, 255, 255, 0.6)
 }

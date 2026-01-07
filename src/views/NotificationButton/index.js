@@ -89,6 +89,9 @@ export default GObject.registerClass(
 
     _updateIcon () {
       const icon = this.get_child_at_index(0)
+
+      if (!icon) return
+
       const isMuted = this._service.isMuted()
       const messagesCount = this._service.messagesCount()
 
