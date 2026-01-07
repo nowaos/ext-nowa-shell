@@ -71,15 +71,7 @@ if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 else
   echo ""
   echo "Restart GNOME Shell (Alt+F2, type 'r', press Enter)"
-  read -p "Press Enter to continue..."
-
-  busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting...")' &>/dev/null || {
-    echo "Manual restart required (Alt+F2, type 'r', Enter)"
-    read -p "Press Enter after restarting..."
-  }
-
-  gnome-extensions enable "$EXTENSION_UUID"
-  echo -e "${GREEN}✓${NC} Extension enabled"
+  echo "Then run: gnome-extensions enable $EXTENSION_UUID"
 fi
 
 echo ""

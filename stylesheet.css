@@ -2,7 +2,7 @@
 .quick-settings {
   background-color: #2e2e32;
   border-radius: 18px;
-  padding: 14px !important; /* igual ao spacing entre os toggles */
+  padding: 12px; /* igual ao spacing entre os toggles */
 }
 
 /* Toggles and toggle-with-menu block */
@@ -132,7 +132,7 @@
 .datemenu-popover,
 .popup-menu-content {
   background-color: #2e2e32;
-  border-radius: 18px !important;
+  border-radius: 18px;
 }
 
 /* Forçar fundo e texto do calendário */
@@ -161,15 +161,15 @@
 
 /* Buttons */
 
-.quick-settings .quick-settings-system-item .icon-button {
+.icon-button {
   background-color: #47474c;
 }
 
-.quick-settings .quick-settings-system-item .icon-button:hover {
+.icon-button:hover {
   background-color: st-lighten(#47474c, 4%);
 }
 
-.quick-settings .quick-settings-system-item .icon-button:active {
+.icon-button:active {
   background-color: st-lighten(#47474c, 8%);
 }
 
@@ -183,4 +183,95 @@
 
 .quick-slider .icon-button:active {
   background-color: st-lighten(#2e2e32, 8%);
+}
+
+/* Notifications */
+
+.notification-menu {
+  width: 360px;
+  min-height: 320px;
+  max-height: 480px;
+  padding: 0px;
+}
+
+.notification-empty-icon {
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 1em;
+}
+
+.notification-empty-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5em;
+}
+
+.notification-empty-label {
+  font-weight: 400;
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.notification-controls {
+  padding: 0 12px 12px 12px;
+}
+
+.notification-constrols-toggle.is-active {
+  background-color: -st-accent-color;
+  color: -st-accent-fg-color;
+}
+
+.notification-scroll-view {
+  padding: 12px 0 0 12px;
+  margin: 0;
+}
+
+.notification-item {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.notification-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.notification-item-title {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.notification-item-body {
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+}
+
+/* messages */
+
+.notification-menu .message {
+  border-radius: 12px;
+}
+
+.notification-menu .media-message {
+  background-color: st-mix(-st-accent-color, #54545a, 25%);
+}
+
+.notification-menu .message-media-control {
+  padding: 12px;
+}
+
+.notification-menu .message-media-control:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.notification-menu .message-media-control:active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.notification-menu .media-message .message-header,
+.notification-menu .media-message .message-header .message-source-icon,
+.notification-menu .media-message .message-header .message-header-content {
+  color: st-lighten(st-mix(-st-accent-color, #54545a, 25%), 40%)
 }

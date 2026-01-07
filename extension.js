@@ -7,6 +7,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import { Logger } from './src/services/Logger.js'
 import { CalendarManager } from './src/modules/CalendarManager.js'
 import { PowerButtonManager } from './src/modules/PowerButtonManager.js'
+import { NotificationsManager } from './src/modules/NotificationsManager.js'
 
 /**
  * Nowa Shell - GNOME Shell interface customizations
@@ -17,10 +18,12 @@ import { PowerButtonManager } from './src/modules/PowerButtonManager.js'
  * - System buttons styling
  * - Calendar minification (hide World Clocks and Weather)
  * - Custom Power button with direct actions
+ * - Notification indicator with badge
  */
 export default class NowaShellExtension extends Extension {
   #calendarManager = null
   #powerButtonManager = null
+  #notificationsManager = null
 
   enable () {
     Logger.log('Nowa Shell: === Extension Enabled ===')
@@ -34,10 +37,20 @@ export default class NowaShellExtension extends Extension {
     // Initialize Power Button Manager
     this.#powerButtonManager = new PowerButtonManager(Main)
     this.#powerButtonManager.enable()
+
+    // Initialize Notification Manager
+    this.#notificationsManager = new NotificationsManager(Main)
+    this.#notificationsManager.enable()
   }
 
   disable () {
     Logger.log('Nowa Shell: === Extension Disabled ===')
+
+    // Disable Notification Manager
+    if (this.#notificationsManager) {
+      this.#notificationsManager.disable()
+      this.#notificationsManager = null
+    }
 
     // Disable Power Button Manager
     if (this.#powerButtonManager) {
