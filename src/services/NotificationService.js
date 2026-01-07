@@ -148,8 +148,6 @@ export class NotificationService {
 
     try {
       this.#messageList.clear()
-
-      Logger.debug(this.#name, 'All notifications cleared')
     } catch (e) {
       Logger.debug(this.#name, `Error clearing notifications: ${e}`)
     }

@@ -61,8 +61,6 @@ export default GObject.registerClass(
     }
 
     destroy () {
-      Logger.log('NotificationButton destroyed')
-
       super.destroy()
     }
 
@@ -79,8 +77,6 @@ export default GObject.registerClass(
 
       this._isEmpty = isEmpty
       this._updateIcon()
-
-      Logger.log(`Empty state: ${isEmpty}`)
     }
 
     _syncClear () {
@@ -94,8 +90,6 @@ export default GObject.registerClass(
       } else {
         this._notifControl.clearButton.add_style_class_name('disabled')
       }
-
-      Logger.log(`Can clear: ${canClear}`)
     }
 
     _updateIcon () {

@@ -8,13 +8,10 @@ export class NotificationsManager {
   #main
   #button
   #messageTray
-  // #messageContainer
 
   constructor (main) {
     this.#main = main
     this.#messageTray = this.#main.messageTray
-    // this.#messageContainer = this.#messageTray._bannerBin
-
   }
 
   enable () {
