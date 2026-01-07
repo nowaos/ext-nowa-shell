@@ -10,8 +10,6 @@ import { NotificationService } from '../../services/NotificationService.js'
 
 export default GObject.registerClass(
   class NotificationButton extends PanelMenu.Button {
-    _isDndActive = null
-
     _init (main) {
       super._init(0.5, 'Notifications')
 
@@ -26,10 +24,8 @@ export default GObject.registerClass(
       this._service.init()
       this._service.connect('notify::empty', () => this._syncEmpty(), this)
       this._service.connect('notify::can-clear', () => this._syncClear(), this)
-      this._service.onChangeDnd((isDndActive) => {
-        this._isDndActive = isDndActive
-        this._updateIcon()
-      })
+      this._service.onChangeMute(() => this._updateIcon())
+      this._service.onListChanged(() => this._updateIcon())
 
       this._buildMenu()
     }
@@ -37,8 +33,8 @@ export default GObject.registerClass(
     _buildMenu () {
       try {
         this._notifControl = new NotificationControls({
-          onToggleDnd: () => this._service.toggleDnd(),
-          onClear: () => this._service.clearAll()
+          onToggleMute: () => this._service.toggleMute(),
+          onClear: () => this._service.clearAll(),
         })
         this._notifList = new NotificationList(this._service.getMessageList())
         this._placeholder = new EmptyState()
@@ -53,7 +49,7 @@ export default GObject.registerClass(
 
         this._syncEmpty()
         this._syncClear()
-        this._service.onChangeDnd((state) => this._notifControl.updateDnd(state))
+        this._service.onChangeMute((state) => this._notifControl.updateMuteButton(state))
       } catch (e) {
         Logger.log(`Error building menu: ${e}`)
         Logger.log(`Stack: ${e.stack}`)
@@ -75,7 +71,6 @@ export default GObject.registerClass(
         this._notifList.el.show()
       }
 
-      this._isEmpty = isEmpty
       this._updateIcon()
     }
 
@@ -93,14 +88,16 @@ export default GObject.registerClass(
     }
 
     _updateIcon () {
-      let icon = this.get_child_at_index(0)
+      const icon = this.get_child_at_index(0)
+      const isMuted = this._service.isMuted()
+      const messagesCount = this._service.messagesCount()
 
-      if (this._isDndActive) {
+      if (isMuted) {
         icon.icon_name = 'notification-disabled-symbolic'
-      } else if (this._isEmpty) {
-        icon.icon_name = 'notification-symbolic'
-      } else {
+      } else if (messagesCount > 0) {
         icon.icon_name = 'notification-active'
+      } else {
+        icon.icon_name = 'notification-symbolic'
       }
     }
   }

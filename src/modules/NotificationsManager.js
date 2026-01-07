@@ -21,10 +21,11 @@ export class NotificationsManager {
 
     this.#button = new NotificationButton(this.#main)
     this.#main.panel.addToStatusArea('nowa-notifications', this.#button, position, box)
-    this.#hideDefaultDnd()
+    this.#hideDefaultMuteIndicator(true)
   }
 
   disable () {
+    this.#hideDefaultMuteIndicator(false)
     this.#button?.destroy?.()
     this.#button = null
   }
@@ -60,7 +61,7 @@ export class NotificationsManager {
     }
   }
 
-  #hideDefaultDnd () {
+  #hideDefaultMuteIndicator (value) {
     const dateMenu = this.#main.panel?.statusArea?.dateMenu
 
     if (!dateMenu) return
@@ -70,7 +71,10 @@ export class NotificationsManager {
 
     if (!indicator) return
 
-    indicator.destroy()
-    dateMenu._indicator = null
+    if (value) {
+      indicator.add_style_class_name('notification-default-mute-indicator')
+    } else {
+      indicator.remove_style_class_name('notification-default-mute-indicator')
+    }
   }
 }

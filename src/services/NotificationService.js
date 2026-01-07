@@ -14,8 +14,10 @@ import GdkPixbuf from 'gi://GdkPixbuf'
 export class NotificationService {
   #main
   #messageList = null
+  #messagesCount = 0
   #settings
-  #signalIds = []
+  #signalIds = { list: [], settings: [] }
+  #callbacks = { onUpdate: [], onMuteChange: [] }
 
   constructor (main) {
     this.#main = main
@@ -37,22 +39,45 @@ export class NotificationService {
   }
 
   /**
-   * Get Do Not Disturb status
-   *
-   * @returns {boolean}
-   */
-  getDnd () {
-    return !this.#settings.get_boolean('show-banners')
-  }
-
-  /**
    * Initialize the service and create MessageList
    */
   init () {
     try {
+      let sid
+
       // Create our own independent MessageList.MessageView
       // This creates a completely new notification list, separate from the calendar
       this.#messageList = new MessageList.MessageView()
+
+      sid = this.#settings.connect('changed::show-banners', () => {
+        this.#callbacks.onMuteChange.forEach(fn => fn(this.isMuted()))
+      })
+
+      this.#signalIds.settings.push(sid)
+
+      sid = this.#messageList.connect('child-added', (_list, child) => {
+        const message = child.get_child()
+
+        if (message._player) {
+          child._isMedia = true
+
+          return
+        }
+
+        this.#messagesCount += 1
+        this.#callbacks.onUpdate.forEach(fn => fn())
+      })
+
+      this.#signalIds.list.push(sid)
+
+      sid = this.#messageList.connect('child-removed', (_list, child) => {
+        if (child._isMedia) return
+
+        this.#messagesCount -= 1
+        this.#callbacks.onUpdate.forEach(fn => fn())
+      })
+
+      this.#signalIds.list.push(sid)
 
       return true
     } catch (e) {
@@ -67,11 +92,19 @@ export class NotificationService {
    * Cleanup the service
    */
   destroy () {
-    this.#signalIds.forEach(id => {
+    this.#signalIds.list.forEach(id => {
+      try { this.#messageList.disconnect(id) } catch {}
+    })
+
+    this.#signalIds.settings.forEach(id => {
       try { this.#settings.disconnect(id) } catch {}
     })
 
-    this.#signalIds = []
+    this.#messagesCount = 0
+    this.#signalIds.list = []
+    this.#signalIds.settings = []
+    this.#callbacks.onUpdate = []
+    this.#callbacks.onChangeMute = []
 
     if (this.#messageList) {
       try {
@@ -105,12 +138,16 @@ export class NotificationService {
     }
   }
 
-  onChangeDnd (callback, firstSync = true) {
-    if (firstSync) callback(this.getDnd())
+  onChangeMute (callback, firstSync = true) {
+    if (firstSync) callback()
 
-    const id = this.#settings.connect('changed::show-banners', () => callback(this.getDnd()))
+    this.#callbacks.onMuteChange.push(callback)
+  }
 
-    this.#signalIds.push(id)
+  onListChanged (callback, firstSync = true) {
+    if (firstSync) callback()
+
+    this.#callbacks.onUpdate.push(callback)
   }
 
   /**
@@ -122,7 +159,26 @@ export class NotificationService {
     if (!this.#messageList) {
       return true
     }
+
     return this.#messageList.empty
+  }
+
+  /**
+   * Get Do Not Disturb status
+   *
+   * @returns {boolean}
+   */
+  isMuted () {
+    return !this.#settings.get_boolean('show-banners')
+  }
+
+  /**
+   * Check if the notification list is empty
+   *
+   * @returns {boolean}
+   */
+  messagesCount () {
+    return this.#messagesCount
   }
 
   /**
@@ -156,7 +212,7 @@ export class NotificationService {
   /**
    * Toggle Do Not Disturb
    */
-  toggleDnd () {
+  toggleMute () {
     const isBannersShown = this.#settings.get_boolean('show-banners')
 
     this.#settings.set_boolean('show-banners', !isBannersShown)

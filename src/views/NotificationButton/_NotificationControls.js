@@ -38,8 +38,8 @@ export default class NotificationControls extends _BaseView {
 
     // bind callbacks
 
-    if (this.onToggleDnd) {
-      this.muteButton.connect('clicked', () => this.onToggleDnd())
+    if (this.onToggleMute) {
+      this.muteButton.connect('clicked', () => this.onToggleMute())
     }
 
     if (this.onClear) {
@@ -51,7 +51,7 @@ export default class NotificationControls extends _BaseView {
     this.el.add_child(this.clearButton)
   }
 
-  updateDnd (isActive) {
+  updateMuteButton (isActive) {
     if (isActive) {
       this.muteButton.add_style_class_name('is-active')
     } else {

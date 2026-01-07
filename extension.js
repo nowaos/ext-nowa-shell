@@ -26,7 +26,7 @@ export default class NowaShellExtension extends Extension {
   #notificationsManager = null
 
   enable () {
-    Logger.log('Nowa Shell: === Extension Enabled ===')
+    Logger.log('=== Extension Enabled ===')
 
     const settings = this.getSettings()
 
@@ -44,7 +44,7 @@ export default class NowaShellExtension extends Extension {
   }
 
   disable () {
-    Logger.log('Nowa Shell: === Extension Disabled ===')
+    Logger.log('=== Extension Disabled ===')
 
     // Disable Notification Manager
     if (this.#notificationsManager) {
