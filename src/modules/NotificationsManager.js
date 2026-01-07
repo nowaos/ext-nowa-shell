@@ -19,17 +19,12 @@ export class NotificationsManager {
 
   enable () {
     const { box, position } = this.#getPositionRelativeToQS('left')
-    const indicator = this.#main.panel.statusArea.quickSettings._dndIndicator
 
     this.#messageTray.bannerAlignment = Clutter.ActorAlign.END
 
     this.#button = new NotificationButton(this.#main)
     this.#main.panel.addToStatusArea('nowa-notifications', this.#button, position, box)
     this.#hideDefaultDnd()
-
-    if (indicator) {
-      indicator.destroy()
-    }
   }
 
   disable () {

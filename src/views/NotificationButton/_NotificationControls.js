@@ -11,7 +11,7 @@ export default class NotificationControls extends _BaseView {
 
     this.el = new St.BoxLayout({
       style_class: 'notification-controls',
-      x_expand: true,
+      x_expand: true
     })
 
     // Mute button

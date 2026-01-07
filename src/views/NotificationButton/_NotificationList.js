@@ -10,6 +10,7 @@ export default class NotificationList extends _BaseView {
     this.el = new St.ScrollView({
       style_class: 'notification-scroll-view',
       overlay_scrollbars: true,
+      y_expand: true
     })
 
     // Set constraints
