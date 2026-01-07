@@ -16,7 +16,6 @@ export class NotificationService {
   #messageList = null
   #settings
   #signalIds = []
-  #settingsSignalIds = []
 
   constructor (main) {
     this.#main = main
@@ -69,15 +68,10 @@ export class NotificationService {
    */
   destroy () {
     this.#signalIds.forEach(id => {
-      try { this.#messageList.disconnect(id) } catch {}
-    })
-
-    this.#settingsSignalIds.forEach(id => {
       try { this.#settings.disconnect(id) } catch {}
     })
 
     this.#signalIds = []
-    this.#settingsSignalIds = []
 
     if (this.#messageList) {
       try {
@@ -105,9 +99,7 @@ export class NotificationService {
     }
 
     try {
-      const id = this.#messageList.connectObject(signal, callback, owner)
-
-      this.#signalIds.push(id)
+      this.#messageList.connectObject(signal, callback, owner)
     } catch (e) {
       Logger.log(`NotificationService: Error connecting to signal: ${e}`)
     }
@@ -118,7 +110,7 @@ export class NotificationService {
 
     const id = this.#settings.connect('changed::show-banners', () => callback(this.getDnd()))
 
-    this.#settingsSignalIds.push(id)
+    this.#signalIds.push(id)
   }
 
   /**

@@ -7,11 +7,13 @@ export default class _BaseView {
     this.onCreate()
   }
 
+  destroy () {
+    this.onDestroy()
+  }
+
   onCreate () {
     throw new Error('must be implemented.')
   }
 
-  onDestroy () {
-    this.el?.destroy?.()
-  }
+  onDestroy () {}
 }

@@ -63,7 +63,6 @@ export default GObject.registerClass(
     destroy () {
       Logger.log('NotificationButton destroyed')
 
-      this._service.destroy()
       super.destroy()
     }
 

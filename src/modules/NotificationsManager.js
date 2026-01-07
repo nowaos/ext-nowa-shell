@@ -69,10 +69,11 @@ export class NotificationsManager {
     if (!dateMenu) return
 
     // In GNOME 43+ the indicator is usually stored in _dndIndicator
-    const indicator = dateMenu._dndIndicator || dateMenu._indicator
+    const indicator = dateMenu._indicator
 
-    if (indicator) {
-      indicator.destroy()
-    }
+    if (!indicator) return
+
+    indicator.destroy()
+    dateMenu._indicator = null
   }
 }
