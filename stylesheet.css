@@ -135,5 +135,32 @@
 .notification-menu .media-message .message-header,
 .notification-menu .media-message .message-header .message-source-icon,
 .notification-menu .media-message .message-header .message-header-content {
-  color: rgba(255, 255, 255, 0.6)
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* === CALENDAR === */
+
+.events-button {
+  width: 248px;
+}
+
+.calendar .calendar-month-header {
+  margin-bottom: 12px;
+}
+
+.calendar .calendar-month-header .calendar-month-label {
+  text-align: left;
+}
+
+.calendar .calendar-day.calendar-weekend {
+ color: #fff;
+}
+
+.calendar .calendar-day.calendar-other-month {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: normal;
+}
+
+.calendar .calendar-day.calendar-other-month.calendar-weekend {
+  color: rgba(255, 255, 255, 0.5);
 }

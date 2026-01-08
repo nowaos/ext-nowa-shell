@@ -15,32 +15,58 @@ export default class NowaShellPreferences extends ExtensionPreferences {
       icon_name: 'dialog-information-symbolic',
     })
 
+    // Calendar group
+
     const group = new Adw.PreferencesGroup({
       title: 'Calendar',
     })
 
-    // Minify Calendar toggle
-    const minifyCalendarRow = new Adw.ActionRow({
-      title: 'Minify Calendar',
-      subtitle: 'Hide World Clocks and Weather sections',
+    const hideClocksRow = new Adw.ActionRow({
+      title: 'Hide Clocks',
+      subtitle: 'Hide World Clocks from the calendar',
     })
 
-    const minifyCalendarSwitch = new Gtk.Switch({
-      active: settings.get_boolean('minify-calendar'),
+    const hideClocksSwitch = new Gtk.Switch({
+      active: settings.get_boolean('hide-cal-clocks'),
       valign: Gtk.Align.CENTER,
     })
 
     settings.bind(
-      'minify-calendar',
-      minifyCalendarSwitch,
+      'hide-cal-clocks',
+      hideClocksSwitch,
       'active',
       Gio.SettingsBindFlags.DEFAULT
     )
 
-    minifyCalendarRow.add_suffix(minifyCalendarSwitch)
-    minifyCalendarRow.activatable_widget = minifyCalendarSwitch
+    hideClocksRow.add_suffix(hideClocksSwitch)
+    hideClocksRow.activatable_widget = hideClocksSwitch
 
-    group.add(minifyCalendarRow)
+    // ---
+
+    const hideWeatherRow = new Adw.ActionRow({
+      title: 'Hide Weather',
+      subtitle: 'Hide Weather from the calendar',
+    })
+
+    const hideWeatherSwitch = new Gtk.Switch({
+      active: settings.get_boolean('hide-cal-weather'),
+      valign: Gtk.Align.CENTER,
+    })
+
+    settings.bind(
+      'hide-cal-weather',
+      hideWeatherSwitch,
+      'active',
+      Gio.SettingsBindFlags.DEFAULT
+    )
+
+    hideWeatherRow.add_suffix(hideWeatherSwitch)
+    hideWeatherRow.activatable_widget = hideWeatherSwitch
+
+    // ---
+
+    group.add(hideClocksRow)
+    group.add(hideWeatherRow)
     page.add(group)
     window.add(page)
   }

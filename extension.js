@@ -26,12 +26,10 @@ export default class NowaShellExtension extends Extension {
   #notificationsManager = null
 
   enable () {
-    Logger.log('=== Extension Enabled ===')
-
     const settings = this.getSettings()
 
     // Initialize Calendar Manager
-    this.#calendarManager = new CalendarManager(settings, Main, this)
+    this.#calendarManager = new CalendarManager(settings, Main)
     this.#calendarManager.enable()
 
     // Initialize Power Button Manager
@@ -44,8 +42,6 @@ export default class NowaShellExtension extends Extension {
   }
 
   disable () {
-    Logger.log('=== Extension Disabled ===')
-
     // Disable Notification Manager
     if (this.#notificationsManager) {
       this.#notificationsManager.disable()
