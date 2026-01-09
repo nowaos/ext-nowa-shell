@@ -11,6 +11,7 @@ export class CustomCalendarService {
     this.#main = main
     this.#calendar = this.#main.panel.statusArea.dateMenu._calendar
   }
+
   enable () {
     this.#updateHeader(true)
     this.#insertTodayButton()

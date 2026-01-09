@@ -1,7 +1,7 @@
 /* === GENERAL === */
 
 .popup-menu-content {
-  border-radius: 18px;
+  border-radius: 20px;
 }
 
 /* === QUICK SETTINGS === */
@@ -140,8 +140,40 @@
 
 /* === CALENDAR === */
 
-.events-button {
+#calendarArea {
+  padding: 0; /* + 6px from .popup-menu-content */
+}
+
+.calendar {
+  margin-top: 6px;
+}
+
+.calendar-events {
+  margin: 6px;
   width: 248px;
+  spacing: 0.5em;
+}
+
+.calendar-event .event-title {
+  font-weight: 600;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.calendar-event .event-time {
+  font-size: 0.9em;
+  font-feature-settings: "tnum";
+  color: #9b9b9d;
+}
+
+.calendar-event.is-past .event-title {
+  color: #9b9b9d;
+}
+
+.calendar-events .no-events {
+  font-weight: 400;
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .calendar .calendar-month-header {

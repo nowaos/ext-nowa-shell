@@ -24,6 +24,10 @@ export class CalendarManager {
     this.#dateMenuService = new DateMenuService(this.#main)
   }
 
+  get #name () {
+    return this.constructor.name
+  }
+
   get dateMenu () {
     return this.#main.panel.statusArea.dateMenu
   }
@@ -59,7 +63,8 @@ export class CalendarManager {
       this.#hideWeater(isHideWeather)
     }, 200)
 
-    this.#dateMenuService.reorder()
+    this.#dateMenuService.enable()
+
     this.#customCalendar.onToday(() => this.todayButton.emit('clicked', this.todayButton))
     this.#customCalendar.enable()
   }
@@ -75,7 +80,7 @@ export class CalendarManager {
     this.#hideWeater(false)
     this.#hideMessageList(false)
 
-    this.#dateMenuService.undoChanges()
+    this.#dateMenuService.disable()
     this.#customCalendar.disable()
   }
 
@@ -102,27 +107,48 @@ export class CalendarManager {
     this.#signalIds = []
   }
 
-  /**
-   * Apply minify calendar setting
-   */
   #hideClocks (enable) {
-    if (enable) return this.clocksItem?.hide()
+    if (enable) {
+      this.clocksItem._nowaOriginalShow = this.clocksItem.show
+      this.clocksItem.show = () => {
+        console.log.debug(this.#name, 'Disabled by Nowa Shell')
+      }
+      this.clocksItem.hide()
 
-    this.clocksItem?.show()
+      return
+    }
+
+    this.clocksItem.show = this.clocksItem._nowaOriginalShow
+    this.clocksItem.show()
   }
 
-  /**
-   * Apply minify calendar setting
-   */
   #hideWeater (enable) {
-    if (enable) return this.weatherItem?.hide()
+    if (enable) {
+      this.weatherItem._nowaOriginalShow = this.weatherItem.show
+      this.weatherItem.show = () => {
+        console.debug(this.#name, 'Disabled by Nowa Shell')
+      }
+      this.weatherItem.hide()
 
-    this.weatherItem?.show()
+      return
+    }
+
+    this.weatherItem.show = this.weatherItem._nowaOriginalShow
+    this.weatherItem.show()
   }
 
   #hideMessageList (enable) {
-    if (enable) return this.messageList?.hide()
+    if (enable) {
+      this.messageList._nowaOriginalShow = this.messageList.show
+      this.messageList.show = () => {
+        console.debug(this.#name, 'Disabled by Nowa Shell')
+      }
+      this.messageList.hide()
 
-    this.messageList?.show()
+      return
+    }
+
+    this.messageList.show = this.messageList._nowaOriginalShow
+    this.messageList.show()
   }
 }
