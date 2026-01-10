@@ -9,7 +9,6 @@ export class CustomCalendarService {
   #calendar
   #originalHeaderFormat
   #todayButton
-  #callbacks = { onToday: [] }
   #signalManager
 
   constructor (main) {
