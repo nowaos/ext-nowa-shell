@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import { Logger } from '../services/Logger.js'
-import { CustomCalendarService } from '../services/CustomCalendarService.js'
 import { DateMenuService } from '../services/DateMenuService.js'
 
 /**
@@ -14,13 +13,11 @@ export class CalendarManager {
   #settings
   #main
   #signalIds = []
-  #customCalendar = null
   #dateMenuService = null
 
   constructor (settings, main) {
     this.#settings = settings
     this.#main = main
-    this.#customCalendar = new CustomCalendarService(this.#main)
     this.#dateMenuService = new DateMenuService(this.#main)
   }
 
@@ -64,7 +61,6 @@ export class CalendarManager {
     }, 200)
 
     this.#dateMenuService.enable()
-    this.#customCalendar.enable()
   }
 
   /**
@@ -79,7 +75,6 @@ export class CalendarManager {
     this.#hideMessageList(false)
 
     this.#dateMenuService.disable()
-    this.#customCalendar.disable()
   }
 
   #listenEvents () {

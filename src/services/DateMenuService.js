@@ -1,9 +1,11 @@
 import St from 'gi://St'
 import { EventList } from '../views/EventList/index.js'
+import { CustomCalendar } from '../views/CustomCalendar/index.js'
 
 export class DateMenuService {
   #main
   #eventList
+  #customCalendar
 
   constructor (main) {
     this.#main = main
@@ -39,9 +41,11 @@ export class DateMenuService {
 
   enable () {
     this.#eventList = new EventList(this.calendar)
+    this.#customCalendar = new CustomCalendar(this.dateMenu, this.calendar)
 
     this.#reorder()
     this.#replaceEvents()
+    this.#customCalendar.customize()
   }
 
   disable () {
@@ -52,6 +56,12 @@ export class DateMenuService {
       this.#eventList.destroy()
 
       this.#eventList = null
+    }
+
+    if (this.#customCalendar) {
+      this.#customCalendar.destroy()
+
+      this.#customCalendar = null
     }
   }
 
