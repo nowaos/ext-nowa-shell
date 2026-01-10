@@ -73,6 +73,19 @@
   height: 0;
 }
 
+.notification-panel-button {
+  -natural-hpadding: 6px;
+  -minimum-hpadding: 6px;
+}
+
+.notification-indicator-dot {
+  border-radius: 999px;
+  background-color: -st-accent-color;
+  width: 6px;
+  height: 6px;
+  margin-right: 4px;
+}
+
 .notification-menu {
   width: 360px;
   min-height: 320px;

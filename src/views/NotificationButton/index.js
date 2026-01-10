@@ -1,6 +1,7 @@
 import { Logger } from '../../services/Logger.js'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
+import Clutter from 'gi://Clutter'
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
 
 import EmptyState from './_EmptyState.js'
@@ -13,12 +14,7 @@ export default GObject.registerClass(
     _init (main) {
       super._init(0.5, 'Notifications')
 
-      this.add_child(new St.Icon({
-        icon_name: 'notification-symbolic',
-        style_class: 'system-status-icon',
-      }))
-
-      this.menu.box.add_style_class_name('notification-menu')
+      this._buildIcon()
 
       this._service = new NotificationService(main)
       this._service.init()
@@ -30,7 +26,38 @@ export default GObject.registerClass(
       this._buildMenu()
     }
 
+    _buildIcon () {
+      this._iconBox = new St.Widget({
+        layout_manager: new Clutter.BinLayout(),
+        y_align: Clutter.ActorAlign.CENTER
+      })
+
+      this._icon = new St.Icon({
+        icon_name: 'org.gnome.Settings-notifications-symbolic',
+        style_class: 'system-status-icon',
+        x_align: Clutter.ActorAlign.CENTER,
+        y_align: Clutter.ActorAlign.CENTER
+      })
+
+      this._indicatorDot = new St.Bin({
+        style_class: 'notification-indicator-dot',
+        x_align: Clutter.ActorAlign.END,
+        y_align: Clutter.ActorAlign.START,
+        x_expand: true,
+        y_expand: true,
+        opacity: 0
+      })
+
+      this._iconBox.add_child(this._icon)
+      this._iconBox.add_child(this._indicatorDot)
+
+      this.add_child(this._iconBox)
+      this.add_style_class_name('notification-panel-button')
+    }
+
     _buildMenu () {
+      this.menu.box.add_style_class_name('notification-menu')
+
       try {
         this._notifControl = new NotificationControls({
           onToggleMute: () => this._service.toggleMute(),
@@ -88,19 +115,18 @@ export default GObject.registerClass(
     }
 
     _updateIcon () {
-      const icon = this.get_child_at_index(0)
-
-      if (!icon) return
-
       const isMuted = this._service.isMuted()
       const messagesCount = this._service.messagesCount()
 
       if (isMuted) {
-        icon.icon_name = 'notification-disabled-symbolic'
+        this._icon.icon_name = 'notifications-disabled-symbolic'
+        this._indicatorDot.opacity = 0
       } else if (messagesCount > 0) {
-        icon.icon_name = 'notification-active'
+        this._icon.icon_name = 'org.gnome.Settings-notifications-symbolic'
+        this._indicatorDot.opacity = 255
       } else {
-        icon.icon_name = 'notification-symbolic'
+        this._icon.icon_name = 'org.gnome.Settings-notifications-symbolic'
+        this._indicatorDot.opacity = 0
       }
     }
   }

@@ -64,8 +64,6 @@ export class CalendarManager {
     }, 200)
 
     this.#dateMenuService.enable()
-
-    this.#customCalendar.onToday(() => this.todayButton.emit('clicked', this.todayButton))
     this.#customCalendar.enable()
   }
 

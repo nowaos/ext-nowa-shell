@@ -24,7 +24,10 @@ export class CustomCalendarService {
     this.#insertTodayButton()
     this.#registerClickListeners()
 
-    // Escuta quando o calendário atualiza (troca de mês)
+    this.#todayButton.connect('clicked', () => {
+      this.#calendar.setDate(new Date())
+    })
+
     this.#signalManager.connectOn(this.#calendar, 'selected-date-changed', () => {
       this.#checkAndReregisterListeners()
     })
@@ -35,10 +38,6 @@ export class CustomCalendarService {
     this.#removeTodayButton()
     this.#unregisterClickListeners()
     this.#signalManager.disconnectAll()
-  }
-
-  onToday (callback) {
-    this.#callbacks.onToday.push(callback)
   }
 
   #updateHeader (value) {
@@ -61,12 +60,8 @@ export class CustomCalendarService {
       style_class: 'pager-button',
       can_focus: true,
       child: new St.Icon({
-        icon_name: 'calendar-today-symbolic'
+        icon_name: 'x-office-calendar-symbolic'
       })
-    })
-
-    this.#todayButton.connect('clicked', () => {
-      this.#callbacks.onToday.forEach(fn => fn())
     })
 
     backButton.get_parent().remove_child(backButton)

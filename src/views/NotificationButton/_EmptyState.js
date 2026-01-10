@@ -13,7 +13,7 @@ export default class EmptyState extends _BaseView {
     })
 
     const icon = new St.Icon({
-      icon_name: 'notification-symbolic',
+      icon_name: 'no-notifications-symbolic',
       style_class: 'notification-menu-emptystate-icon',
       icon_size: 64,
     })

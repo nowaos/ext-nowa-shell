@@ -19,7 +19,7 @@ export default class NotificationControls extends _BaseView {
     this.muteButton = new St.Button({
       style_class: 'icon-button notification-menu-constrols-toggle',
       child: new St.Icon({
-        icon_name: 'notification-disabled-symbolic',
+        icon_name: 'notifications-disabled-symbolic',
         icon_size: 16,
       }),
       can_focus: true,
