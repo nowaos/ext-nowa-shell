@@ -14,4 +14,8 @@ export class _BaseModule {
   log (message) {
     Logger.debug(this.name, message)
   }
+
+  warn (message) {
+    Logger.error(this.name, message)
+  }
 }

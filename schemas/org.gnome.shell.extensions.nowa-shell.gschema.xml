@@ -12,5 +12,11 @@
       <summary>Hide Weather</summary>
       <description>Hide Weather from the calendar popup</description>
     </key>
+
+    <key name="window-demands-attention-focus" type="b">
+      <default>true</default>
+      <summary>Focus window when it demands attention</summary>
+      <description>Automatically focus windows that demand attention instead of showing notification</description>
+    </key>
   </schema>
 </schemalist>

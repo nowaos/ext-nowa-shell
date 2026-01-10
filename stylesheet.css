@@ -4,6 +4,15 @@
   border-radius: 20px;
 }
 
+/* Hide window caption in overview */
+.window-caption {
+  background-color: transparent !important;
+  border-radius: 0;
+  border: 0;
+  padding: 0;
+  font-size: 0;
+}
+
 /* === QUICK SETTINGS === */
 
 .quick-settings {

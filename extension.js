@@ -9,6 +9,7 @@ import { CalendarManager } from './src/modules/CalendarManager.js'
 import { PowerButtonManager } from './src/modules/PowerButtonManager.js'
 import { NotificationsManager } from './src/modules/NotificationsManager.js'
 import { RoundedScreen } from './src/modules/RoundedScreen.js'
+import { ShellTweaks } from './src/modules/ShellTweaks.js'
 
 /**
  * Nowa Shell - GNOME Shell interface customizations
@@ -26,6 +27,7 @@ export default class NowaShellExtension extends Extension {
   #powerButtonManager
   #notificationsManager
   #roundedScreen
+  #shellTweaks
 
   enable () {
     const settings = this.getSettings()
@@ -33,6 +35,10 @@ export default class NowaShellExtension extends Extension {
     // Initialize Rounded Screen
     this.#roundedScreen = new RoundedScreen(this.dir)
     this.#roundedScreen.enable()
+
+    // Initialize Shell Tweaks
+    this.#shellTweaks = new ShellTweaks(settings)
+    this.#shellTweaks.enable()
 
     // Initialize Calendar Manager
     this.#calendarManager = new CalendarManager(settings, Main)
@@ -52,6 +58,12 @@ export default class NowaShellExtension extends Extension {
     if (this.#roundedScreen) {
       this.#roundedScreen.disable()
       this.#roundedScreen = null
+    }
+
+    // Disable Shell Tweaks
+    if (this.#shellTweaks) {
+      this.#shellTweaks.disable()
+      this.#shellTweaks = null
     }
 
     // Disable Notification Manager

@@ -17,7 +17,7 @@ export default class NowaShellPreferences extends ExtensionPreferences {
 
     // Calendar group
 
-    const group = new Adw.PreferencesGroup({
+    const calendarGroup = new Adw.PreferencesGroup({
       title: 'Calendar',
     })
 
@@ -65,9 +65,35 @@ export default class NowaShellPreferences extends ExtensionPreferences {
 
     // ---
 
-    group.add(hideClocksRow)
-    group.add(hideWeatherRow)
-    page.add(group)
+    calendarGroup.add(hideClocksRow)
+    calendarGroup.add(hideWeatherRow)
+
+    // Notifications Group
+
+    const notificationsGroup = new Adw.PreferencesGroup({
+      title: 'Notifications',
+      description: 'Configure notification behavior',
+    })
+
+    // Window demands attention focus
+    const focusRow = new Adw.SwitchRow({
+      title: 'Focus windows automatically',
+      subtitle: 'Focus windows that demand attention instead of showing notification',
+    })
+
+    settings.bind(
+      'window-demands-attention-focus',
+      focusRow,
+      'active',
+      0 // Gio.SettingsBindFlags.DEFAULT
+    )
+
+    notificationsGroup.add(focusRow)
+
+    // Page
+
+    page.add(calendarGroup)
+    page.add(notificationsGroup)
     window.add(page)
   }
 }
