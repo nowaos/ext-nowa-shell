@@ -115,7 +115,40 @@
   padding: 0 12px 12px 12px;
 }
 
-.notification-menu-constrols-toggle.is-active {
+.notification-menu-controls .notification-control-button {
+  margin-left: 8px;
+
+  padding: 0;
+  width: 2.6em;
+  height: 2.6em;
+  min-height: 1.091em;
+
+  background-color: #36363a;
+  border-radius: 999px;
+  color: #ffffff;
+
+  icon-size: 1.091em;
+  -st-icon-style: symbolic;
+}
+
+.notification-menu-controls .notification-control-button:focus {
+  background-color: st-mix(st-mix(-st-accent-color, #ffffff, 60%), rgba(54, 54, 58, 0.25), 5%);
+}
+
+.notification-menu-controls .notification-control-button:hover {
+  background-color: st-lighten(#36363a, 7%);
+}
+
+.notification-menu-controls .notification-control-button:active {
+  background-color: st-lighten(st-mix(#ffffff, #36363a, 9%), 9%);
+}
+
+.notification-menu-controls .notification-control-button:insensitive {
+  color: st-transparentize(#ffffff, 0.75);
+    background-color: #36363a;
+}
+
+.notification-menu-controls .notification-control-button:checked {
   background-color: -st-accent-color;
   color: -st-accent-fg-color;
 }

@@ -17,23 +17,25 @@ export default class NotificationControls extends _BaseView {
     // Mute button
 
     this.muteButton = new St.Button({
-      style_class: 'icon-button notification-menu-constrols-toggle',
+      style_class: 'notification-control-button',
       child: new St.Icon({
         icon_name: 'notifications-disabled-symbolic',
         icon_size: 16,
       }),
       can_focus: true,
+      toggle_mode: true,
+      checked: false
     })
 
     // Clear button
 
     this.clearButton = new St.Button({
-      style_class: 'icon-button',
+      style_class: 'notification-control-button',
       child: new St.Icon({
         icon_name: 'edit-clear-symbolic',
         icon_size: 16
       }),
-      can_focus: true,
+      can_focus: true
     })
 
     // bind callbacks
@@ -46,16 +48,12 @@ export default class NotificationControls extends _BaseView {
       this.clearButton.connect('clicked', () => this.onClear())
     }
 
-    this.el.add_child(this.muteButton)
     this.el.add_child(spacer)
     this.el.add_child(this.clearButton)
+    this.el.add_child(this.muteButton)
   }
 
   updateMuteButton (isActive) {
-    if (isActive) {
-      this.muteButton.add_style_class_name('is-active')
-    } else {
-      this.muteButton.remove_style_class_name('is-active')
-    }
+    this.muteButton.checked = isActive
   }
 }
