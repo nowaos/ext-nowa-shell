@@ -1,25 +1,40 @@
 import St from 'gi://St'
+import Gio from 'gi://Gio'
+import GLib from 'gi://GLib'
+import SignalManager from './SignalManager.js'
 
 export class CustomCalendarService {
   #main
+  #dateMenu
   #calendar
   #originalHeaderFormat
   #todayButton
   #callbacks = { onToday: [] }
+  #signalManager
 
   constructor (main) {
     this.#main = main
-    this.#calendar = this.#main.panel.statusArea.dateMenu._calendar
+    this.#dateMenu = this.#main.panel.statusArea.dateMenu
+    this.#calendar = this.#dateMenu._calendar
+    this.#signalManager = new SignalManager()
   }
 
   enable () {
     this.#updateHeader(true)
     this.#insertTodayButton()
+    this.#registerClickListeners()
+
+    // Escuta quando o calendário atualiza (troca de mês)
+    this.#signalManager.connectOn(this.#calendar, 'selected-date-changed', () => {
+      this.#checkAndReregisterListeners()
+    })
   }
 
   disable () {
     this.#updateHeader(false)
     this.#removeTodayButton()
+    this.#unregisterClickListeners()
+    this.#signalManager.disconnectAll()
   }
 
   onToday (callback) {
@@ -68,5 +83,67 @@ export class CustomCalendarService {
 
     backButton.get_parent().remove_child(backButton)
     header.insert_child_at_index(backButton, 0)
+  }
+
+  #checkAndReregisterListeners () {
+    const firstButton = this.#calendar._buttons[0]
+
+    if (firstButton && !firstButton._nowaBPE) {
+      this.#registerClickListeners()
+    }
+  }
+
+  #registerClickListeners () {
+    this.#calendar._buttons.forEach(button => {
+      if (button._nowaBPE) return
+
+      button._nowaBPE = button.connect('clicked', () => {
+        button._nowaClickCount = (button._nowaClickCount || 0) + 1
+
+        if (button._nowaClickCount === 2) {
+          this.#openAppCalendar(button._date)
+          button._nowaClickCount = 0
+          if (button._nowaClickTimeout) {
+            GLib.Source.remove(button._nowaClickTimeout)
+            button._nowaClickTimeout = null
+          }
+        } else {
+          if (button._nowaClickTimeout) GLib.Source.remove(button._nowaClickTimeout)
+
+          button._nowaClickTimeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 300, () => {
+            button._nowaClickCount = 0
+            button._nowaClickTimeout = null
+
+            return GLib.SOURCE_REMOVE
+          })
+        }
+      })
+    })
+  }
+
+  #unregisterClickListeners () {
+    this.#calendar._buttons.forEach(button => {
+      if (button._nowaBPE) {
+        button.disconnect(button._nowaBPE)
+        button._nowaBPE = null
+      }
+    })
+  }
+
+  #openAppCalendar (date) {
+    try {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+
+      Gio.Subprocess.new(
+        ['gnome-calendar', '-d', `${month}/${day}/${year}`],
+        Gio.SubprocessFlags.NONE
+      )
+
+      this.#dateMenu.menu.close()
+    } catch (e) {
+      console.error('Failed to open GNOME Calendar:', e)
+    }
   }
 }
