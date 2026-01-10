@@ -104,7 +104,7 @@ export class CalendarManager {
     if (enable) {
       this.clocksItem._nowaOriginalShow = this.clocksItem.show
       this.clocksItem.show = () => {
-        console.log.debug(this.#name, 'Disabled by Nowa Shell')
+        console.log(this.#name, 'Disabled by Nowa Shell')
       }
       this.clocksItem.hide()
 
