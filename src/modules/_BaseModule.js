@@ -10,16 +10,13 @@ import { Logger } from '../services/Logger.js'
  */
 export class _BaseModule {
   constructor (settings, extensionDir) {
+    this.main = Main
     this.settings = settings
     this.dir = extensionDir
   }
 
   get name () {
     return this.constructor.name
-  }
-
-  get main () {
-    return Main
   }
 
   log (message) {

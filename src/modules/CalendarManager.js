@@ -1,58 +1,55 @@
 // SPDX-FileCopyrightText: Nowa Shell Contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import { _BaseModule } from './_BaseModule.js'
 import { Logger } from '../services/Logger.js'
 import { DateMenuService } from '../services/DateMenuService.js'
+import SignalManager from '../services/SignalManager.js'
 
 /**
  * CalendarManager - Manages calendar minification features
  *
  * Handles hiding/showing World Clocks and Weather sections
  */
-export class CalendarManager {
-  #settings
-  #main
-  #signalIds = []
+export class CalendarManager extends _BaseModule {
+  #signalManager
   #dateMenuService = null
 
-  constructor (settings, main) {
-    this.#settings = settings
-    this.#main = main
-    this.#dateMenuService = new DateMenuService(this.#main)
+  constructor (...args) {
+    super(...args)
+
+    this.#dateMenuService = new DateMenuService(this.main)
+    this.#signalManager = new SignalManager()
+
+    this.dateMenu = this.main.panel.statusArea.dateMenu
+    this.messageList = this.dateMenu._messageList
+    this.todayButton = this.dateMenu._date
+    this.clocksItem = this.dateMenu._clocksItem
+    this.weatherItem = this.dateMenu._weatherItem
   }
 
   get #name () {
     return this.constructor.name
   }
 
-  get dateMenu () {
-    return this.#main.panel.statusArea.dateMenu
-  }
-
-  get messageList () {
-    return this.dateMenu._messageList
-  }
-
-  get todayButton () {
-    return this.dateMenu._date
-  }
-
-  get clocksItem () {
-    return this.dateMenu._clocksItem
-  }
-
-  get weatherItem () {
-    return this.dateMenu._weatherItem
-  }
-
   /**
    * Enable calendar management
    */
   enable () {
-    const isHideClocks = this.#settings.get_boolean('hide-cal-clocks')
-    const isHideWeather = this.#settings.get_boolean('hide-cal-weather')
+    const isHideClocks = this.settings.get_boolean('hide-cal-clocks')
+    const isHideWeather = this.settings.get_boolean('hide-cal-weather')
 
-    this.#listenEvents()
+    this.#signalManager.connectOn(this.settings, 'changed::hide-cal-clocks', () => {
+      const enabled = this.settings.get_boolean('hide-cal-clocks')
+
+      this.#hideClocks(enabled)
+    })
+
+    this.#signalManager.connectOn(this.settings, 'changed::hide-cal-weather', () => {
+      const enabled = this.settings.get_boolean('hide-cal-weather')
+
+      this.#hideWeater(enabled)
+    })
 
     setTimeout(() => {
       this.#hideMessageList(true)
@@ -69,35 +66,12 @@ export class CalendarManager {
   disable () {
     Logger.log('CalendarManager: Disabling')
 
-    this.#unlistenEvents()
+    this.#signalManager.disconnectAll()
     this.#hideClocks(false)
     this.#hideWeater(false)
     this.#hideMessageList(false)
 
     this.#dateMenuService.disable()
-  }
-
-  #listenEvents () {
-    this.#signalIds.push(
-      this.#settings.connect('changed::hide-cal-clocks', () => {
-        const enabled = this.#settings.get_boolean('hide-cal-clocks')
-
-        this.#hideClocks(enabled)
-      })
-    )
-
-    this.#signalIds.push(
-      this.#settings.connect('changed::hide-cal-weather', () => {
-        const enabled = this.#settings.get_boolean('hide-cal-weather')
-
-        this.#hideWeater(enabled)
-      })
-    )
-  }
-
-  #unlistenEvents () {
-    this.#signalIds.forEach(id => this.#settings.disconnect(id))
-    this.#signalIds = []
   }
 
   #hideClocks (enable) {
@@ -128,6 +102,8 @@ export class CalendarManager {
 
     this.weatherItem.show = this.weatherItem._nowaOriginalShow
     this.weatherItem.show()
+
+    delete this.weatherItem._nowaOriginalShow
   }
 
   #hideMessageList (enable) {
@@ -143,5 +119,7 @@ export class CalendarManager {
 
     this.messageList.show = this.messageList._nowaOriginalShow
     this.messageList.show()
+
+    delete this.messageList._nowaOriginalShow
   }
 }

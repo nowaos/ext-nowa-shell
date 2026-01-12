@@ -9,34 +9,14 @@ export class DateMenuService {
 
   constructor (main) {
     this.#main = main
-  }
 
-  get dateMenu () {
-    return this.#main.panel.statusArea.dateMenu
-  }
-
-  get messageList () {
-    return this.dateMenu._messageList
-  }
-
-  get todayButton () {
-    return this.dateMenu._date
-  }
-
-  get calendar () {
-    return this.dateMenu._calendar
-  }
-
-  get eventsItem () {
-    return this.dateMenu._eventsItem
-  }
-
-  get clocksItem () {
-    return this.dateMenu._clocksItem
-  }
-
-  get weatherItem () {
-    return this.dateMenu._weatherItem
+    this.dateMenu = this.#main.panel.statusArea.dateMenu
+    this.messageList = this.dateMenu._messageList
+    this.todayButton = this.dateMenu._date
+    this.calendar = this.dateMenu._calendar
+    this.eventsItem = this.dateMenu._eventsItem
+    this.clocksItem = this.dateMenu._clocksItem
+    this.weatherItem = this.dateMenu._weatherItem
   }
 
   enable () {

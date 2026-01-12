@@ -39,11 +39,11 @@ export default class NowaShellExtension extends Extension {
     this.#roundedScreen.enable()
 
     // Initialize Shell Tweaks
-    this.#shellTweaks = new ShellTweaks(settings)
+    this.#shellTweaks = new ShellTweaks(settings, this.dir)
     this.#shellTweaks.enable()
 
     // Initialize Calendar Manager
-    this.#calendarManager = new CalendarManager(settings, Main)
+    this.#calendarManager = new CalendarManager(settings, this.dir)
     this.#calendarManager.enable()
 
     // Initialize Power Button Manager

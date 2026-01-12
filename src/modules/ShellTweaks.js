@@ -14,17 +14,15 @@ import { t } from '../interfaces/translations.js'
 * ShellTweaks - Various GNOME Shell UI tweaks
 */
 export class ShellTweaks extends _BaseModule {
-  #settings
   #originals = {}
   #startupCompleteSignal = null
   #displayWindowDemandsAttentionSignal = null
   #displayWindowMarkedUrgentSignal = null
   #signalManager
 
-  constructor (settings) {
-    super()
+  constructor (...args) {
+    super(...args)
 
-    this.#settings = settings
     this.#signalManager = new SignalManager()
   }
 
@@ -42,13 +40,13 @@ export class ShellTweaks extends _BaseModule {
     this.#disableDashPinNotifications()
 
     // Window demands attention: focus instead of notification
-    if (this.#settings.get_boolean('window-demands-attention-focus')) {
+    if (this.settings.get_boolean('window-demands-attention-focus')) {
       this.#enableWindowDemandsAttentionFocus()
     }
 
     // Monitor setting changes
-    this.#signalManager.connectOn(this.#settings, 'changed::window-demands-attention-focus', () => {
-      if (this.#settings.get_boolean('window-demands-attention-focus')) {
+    this.#signalManager.connectOn(this.settings, 'changed::window-demands-attention-focus', () => {
+      if (this.settings.get_boolean('window-demands-attention-focus')) {
         this.#enableWindowDemandsAttentionFocus()
       } else {
         this.#disableWindowDemandsAttentionFocus()
@@ -294,67 +292,6 @@ export class ShellTweaks extends _BaseModule {
     // Return the first matching signal (windowAttentionHandler's signal)
     return signalIds.length > 0 ? signalIds[0] : null
   }
-
-  /**
-  * Disable dash pin/unpin notifications
-  */
-  // #disableDashPinNotifications () {
-  //   const that = this
-  //   const MessageTray = Main.messageTray.constructor
-
-  //   if (!MessageTray || !MessageTray.prototype._updateState) {
-  //     this.warn('MessageTray._updateState not found')
-
-  //     return
-  //   }
-
-  //   // Save original method
-  //   if (!this.#originals['messageTrayUpdateState']) {
-  //     this.#originals['messageTrayUpdateState'] = MessageTray.prototype._updateState
-  //   }
-
-  //   // Override _updateState to filter notifications
-  //   MessageTray.prototype._updateState = function () {
-  //     // Get translated patterns from GNOME Shell
-  //     // These will be in the user's language automatically
-  //     const pinnedPattern = t('%s has been pinned to the dash.')
-  //       .replace('%s', '.*')  // Replace placeholder with regex wildcard
-  //       .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')  // Escape special regex chars except our .*
-  //       .replace('\\.\\*', '.*')  // Restore our wildcard
-
-  //     const unpinnedPattern = t('%s has been unpinned from the dash.')
-  //       .replace('%s', '.*')
-  //       .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  //       .replace('\\.\\*', '.*')
-
-  //     // Create regex patterns
-  //     const pinnedRegex = new RegExp(pinnedPattern, 'i')
-  //     const unpinnedRegex = new RegExp(unpinnedPattern, 'i')
-
-  //     // Filter notification queue
-  //     this._notificationQueue = this._notificationQueue.filter((notification) => {
-  //       const title = notification.title || ''
-
-  //       // Check if title matches pin/unpin pattern (in user's language)
-  //       const isPinNotification = pinnedRegex.test(title) || unpinnedRegex.test(title)
-
-  //       if (isPinNotification) {
-  //         that.log(`Filtered notification: ${title}`)
-
-  //         notification.destroy(3) // NotificationDestroyedReason.DISMISSED
-
-  //         return false // Don't show
-  //       }
-
-  //       return true
-  //     })
-
-  //     // Call original _updateState
-  //     this.constructor.prototype._updateState.call(this)
-  //   }.bind(Main.messageTray)
-
-  //   this.log('Dash pin notifications disabled')
-  // }
 
   #disableDashPinNotifications () {
     const that = this
