@@ -47,7 +47,7 @@ export default class NowaShellExtension extends Extension {
     this.#calendarManager.enable()
 
     // Initialize Power Button Manager
-    this.#powerButtonManager = new PowerButtonManager(Main)
+    this.#powerButtonManager = new PowerButtonManager(settings, this.dir)
     this.#powerButtonManager.enable()
 
     // Initialize Notification Manager

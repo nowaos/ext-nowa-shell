@@ -1,27 +1,30 @@
 // SPDX-FileCopyrightText: Nowa Shell Contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-import { Logger } from '../services/Logger.js'
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 import * as SystemActions from 'resource:///org/gnome/shell/misc/systemActions.js'
+
+import { Logger } from '../services/Logger.js'
+import { _BaseModule } from './_BaseModule.js'
 
 /**
  * PowerButtonManager - Modifies the Power Off button menu
  *
  * Replaces the default menu items with simpler, direct actions
  */
-export class PowerButtonManager {
-  #main
+export class PowerButtonManager extends _BaseModule {
   #quickSettings
   #shutdownItem = null
   #lockItem = null
   #settingsButton = null
+  #settingsButtonOriginalIndex = null
   #originalMenuItems = []
   #customMenuItems = []
   #systemActions = null
 
-  constructor (main) {
-    this.#main = main
+  constructor (...args) {
+    super(...args)
+
     this.#systemActions = SystemActions.getDefault()
   }
 
@@ -30,7 +33,7 @@ export class PowerButtonManager {
   }
 
   enable () {
-    this.#quickSettings = this.#main.panel.statusArea.quickSettings
+    this.#quickSettings = this.main.panel.statusArea.quickSettings
 
     if (!this.#quickSettings?._system?._systemItem) {
       Logger.debug(this.#name, 'Quick Settings system not found')
@@ -61,29 +64,15 @@ export class PowerButtonManager {
       this.#lockItem.visible = false
     }
 
-    // Find Settings button - try multiple approaches
+    // Find and move Settings button
     this.#settingsButton = systemItems.find(child =>
-      child._icon && child._icon.icon_name === 'emblem-system-symbolic'
+      child.constructor?.name === 'SettingsItem'
     )
-
-    if (!this.#settingsButton) {
-      // Try finding by class name
-      this.#settingsButton = systemItems.find(child =>
-        child.constructor?.name === 'SettingsItem'
-      )
-    }
-
-    if (!this.#settingsButton) {
-      systemItems.forEach((child, index) => {
-        const iconName = child._icon ? child._icon.icon_name : 'no icon'
-        const className = child.constructor?.name || 'no class'
-
-        Logger.debug(this.#name, `[${index}] ${className} - icon: ${iconName}`)
-      })
-    }
 
     // Reorder: Settings should be right before Power
     if (this.#settingsButton && this.#shutdownItem) {
+      this.#settingsButtonOriginalIndex = containerRow.get_children().indexOf(this.#settingsButton)
+
       containerRow.remove_child(this.#settingsButton)
 
       const shutdownIndex = containerRow.get_children().indexOf(this.#shutdownItem)
@@ -103,48 +92,21 @@ export class PowerButtonManager {
       this.#lockItem = null
     }
 
-    this.#settingsButton = null
+    if (this.#settingsButton) {
+      const containerRow = this.#settingsButton.get_parent()
 
-    if (!this.#shutdownItem || !this.#shutdownItem.menu) {
-      Logger.debug(this.#name, 'No shutdown item to restore')
+      containerRow.remove_child(this.#settingsButton)
+      containerRow.insert_child_at_index(this.#settingsButton, this.#settingsButtonOriginalIndex)
 
+      this.#settingsButton = null
+    }
+
+
+    if (!this.#shutdownItem) {
       return
     }
 
-    try {
-      // Remove custom items safely
-      this.#customMenuItems.forEach(item => {
-        try {
-          if (item && !item.is_finalized()) {
-            this.#shutdownItem.menu.box.remove_child(item)
-            item.destroy()
-          }
-        } catch (e) {
-          Logger.debug(this.#name, `Error removing custom item: ${e}`)
-        }
-      })
-      this.#customMenuItems = []
-
-      // Clear the menu completely
-      if (this.#shutdownItem.menu && !this.#shutdownItem.menu.is_finalized()) {
-        this.#shutdownItem.menu.removeAll()
-
-        // Restore original items safely
-        this.#originalMenuItems.forEach(item => {
-          try {
-            if (item && !item.is_finalized()) {
-              this.#shutdownItem.menu.addMenuItem(item)
-            }
-          } catch (e) {
-            Logger.log(this.#name, `Error restoring item: ${e}`)
-          }
-        })
-      }
-
-      this.#originalMenuItems = []
-    } catch (e) {
-      Logger.log(this.#name, `Error during disable: ${e}`)
-    }
+    this.#undoModifyMenu()
 
     this.#shutdownItem = null
   }
@@ -164,36 +126,60 @@ export class PowerButtonManager {
 
       // Remove all original items (but keep references for restore)
       menuItems.forEach(item => {
+        item._nowaItemVisible = item.visible
         this.#shutdownItem.menu.box.remove_child(item)
       })
 
       // Add custom menu items
       this.#addCustomMenuItem('Lock', 'system-lock-screen-symbolic', () => {
         this.#systemActions.activateLockScreen()
-        this.#main.panel.closeQuickSettings()
+        this.main.panel.closeQuickSettings()
       })
 
       this.#addCustomMenuItem('Sleep', 'weather-clear-night-symbolic', () => {
         this.#systemActions.activateSuspend()
-        this.#main.panel.closeQuickSettings()
+        this.main.panel.closeQuickSettings()
       })
 
       this.#addCustomMenuItem('Restart', 'system-reboot-symbolic', () => {
         this.#systemActions.activateRestart()
-        this.#main.panel.closeQuickSettings()
+        this.main.panel.closeQuickSettings()
       })
 
       this.#addCustomMenuItem('Log out', 'system-log-out-symbolic', () => {
         this.#systemActions.activateLogout()
-        this.#main.panel.closeQuickSettings()
+        this.main.panel.closeQuickSettings()
       })
 
       this.#addCustomMenuItem('Shut down', 'system-shutdown-symbolic', () => {
         this.#systemActions.activatePowerOff()
-        this.#main.panel.closeQuickSettings()
+        this.main.panel.closeQuickSettings()
       })
     } catch (e) {
       Logger.debug(this.#name, `Error modifying menu: ${e}`)
+    }
+  }
+
+  #undoModifyMenu () {
+    try {
+      // Remove custom items safely
+      this.#customMenuItems.forEach(item => {
+        this.#shutdownItem.menu.box.remove_child(item)
+        item.destroy()
+      })
+      this.#customMenuItems = []
+
+      this.#shutdownItem.menu.removeAll()
+
+      this.#originalMenuItems.forEach(item => {
+        this.#shutdownItem.menu.addMenuItem(item)
+        item.visible = item._nowaItemVisible
+
+        delete item._nowaItemVisible
+      })
+      this.#originalMenuItems = []
+    } catch (e) {
+      Logger.log(this.#name, `Error during disable: ${e}`)
     }
   }
 
