@@ -6,5 +6,13 @@
 ## Contributors
 Thank you to all contributors who have helped improve this project!
 
-## Credits
-- GNOME Shell team for the amazing platform
+## Acknowledgments
+
+This project was inspired by and incorporates ideas from:
+
+* **GNOME Rounded Corners** (by lennart-k) - Rounded screen corners implementation
+  - Repository: https://github.com/lennart-k/gnome-rounded-corners
+* **Night Theme Switcher** (by rmnvgr) - Automatic theme switching logic
+  - Repository: https://gitlab.com/rmnvgr/nightthemeswitcher-gnome-shell-extension
+* **Just Perfection** (by jrahmatzadeh) - Shell tweaks logic
+  - Repository: https://gitlab.com/rmnvgr/nightthemeswitcher-gnome-shell-extension
