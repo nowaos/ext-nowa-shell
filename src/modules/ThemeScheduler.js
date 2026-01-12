@@ -13,7 +13,8 @@ import { CustomDarkToggle } from '../views/CustomDarkToggle/index.js'
 */
 export class ThemeScheduler extends _BaseModule {
   #interfaceSettings
-  #themeCheckTimer = null
+  #alignmentTimer
+  #themeCheckTimer
   #manuallySet = true
   #applying = false
   #signalManager
@@ -68,19 +69,29 @@ export class ThemeScheduler extends _BaseModule {
     const now = new Date()
     const secondsUntilNextMinute = 60 - now.getSeconds() + TICK_DELAY
 
-    GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, secondsUntilNextMinute, () => {
-      this.#checkAndApply()
-
-      this.#themeCheckTimer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 60, () => {
+    this.#alignmentTimer = GLib.timeout_add_seconds(
+      GLib.PRIORITY_DEFAULT,
+      secondsUntilNextMinute,
+      () => {
         this.#checkAndApply()
-        return GLib.SOURCE_CONTINUE
-      })
 
-      return GLib.SOURCE_REMOVE
-    })
+        this.#themeCheckTimer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 60, () => {
+          this.#checkAndApply()
+          return GLib.SOURCE_CONTINUE
+        })
+
+        return GLib.SOURCE_REMOVE
+      }
+    )
   }
 
   #unwatchTime () {
+    if (this.#alignmentTimer) {
+      GLib.Source.remove(this.#alignmentTimer)
+
+      this.#alignmentTimer = null
+    }
+
     if (this.#themeCheckTimer) {
       GLib.Source.remove(this.#themeCheckTimer)
 
