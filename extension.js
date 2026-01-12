@@ -39,9 +39,9 @@ export default class NowaShellExtension extends Extension {
     const settings = this.getSettings()
 
     this.#moduleClasses.forEach(Constructor => {
-      try {
-        const module = new Constructor(settings, this.dir)
+      const module = new Constructor(settings, this.dir)
 
+      try {
         module.enable()
 
         this.#modules.push(module)
