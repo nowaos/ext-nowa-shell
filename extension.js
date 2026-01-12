@@ -51,7 +51,7 @@ export default class NowaShellExtension extends Extension {
     this.#powerButtonManager.enable()
 
     // Initialize Notification Manager
-    this.#notificationsManager = new NotificationsManager(Main)
+    this.#notificationsManager = new NotificationsManager(settings, this.dir)
     this.#notificationsManager.enable()
 
     // Initialize Theme Scheduler

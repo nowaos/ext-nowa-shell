@@ -2,71 +2,45 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import Clutter from 'gi://Clutter'
+import { _BaseModule } from './_BaseModule.js'
 import NotificationButton from '../views/NotificationButton/index.js'
 
-export class NotificationsManager {
-  #main
+export class NotificationsManager extends _BaseModule {
   #button
   #messageTray
+  #originalBannerAlignment
 
-  constructor (main) {
-    this.#main = main
-    this.#messageTray = this.#main.messageTray
+  constructor (...args) {
+    super(...args)
+
+    this.#messageTray = this.main.messageTray
+    this.#originalBannerAlignment = this.#messageTray.bannerAlignment
   }
 
   enable () {
-    const { box, position } = this.#getPositionRelativeToQS('left')
-
     this.#messageTray.bannerAlignment = Clutter.ActorAlign.END
-
-    this.#button = new NotificationButton(this.#main)
-    this.#main.panel.addToStatusArea('nowa-notifications', this.#button, position, box)
     this.#hideDefaultMuteIndicator(true)
+
+    this.#button = new NotificationButton(this.main)
+
+    this.main.panel.addToStatusArea('nowa-notifications', this.#button, 0, 'right')
   }
 
   disable () {
-    this.#hideDefaultMuteIndicator(false)
-    this.#button?.destroy?.()
-    this.#button = null
-  }
-
-  #getPositionRelativeToQS (relativeTo = 'left') {
-    try {
-      const quickSettings = this.#main.panel.statusArea.quickSettings
-
-      if (!quickSettings) {
-        return { box: 'right', position: 0 }
-      }
-
-      // Quick Settings is in the right box
-      const rightBox = this.#main.panel._rightBox
-      const children = rightBox.get_children()
-      const qsIndex = children.indexOf(quickSettings)
-
-      if (qsIndex === -1) {
-        return { box: 'right', position: 0 }
-      }
-
-      if (relativeTo === 'left') {
-        // Place right before Quick Settings
-
-        return { box: 'right', position: qsIndex }
-      } else {
-        // Place right after Quick Settings
-
-        return { box: 'right', position: qsIndex + 1 }
-      }
-    } catch (e) {
-      return { box: 'right', position: 0 }
+    if (this.#button) {
+      this.#button.destroy()
+      this.#button = null
     }
+
+    this.#messageTray.bannerAlignment = this.#originalBannerAlignment
+    this.#hideDefaultMuteIndicator(false)
   }
 
   #hideDefaultMuteIndicator (value) {
-    const dateMenu = this.#main.panel?.statusArea?.dateMenu
+    const dateMenu = this.main.panel?.statusArea?.dateMenu
 
     if (!dateMenu) return
 
-    // In GNOME 43+ the indicator is usually stored in _dndIndicator
     const indicator = dateMenu._indicator
 
     if (!indicator) return
