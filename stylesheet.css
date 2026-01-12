@@ -251,3 +251,25 @@
 .calendar .calendar-day.calendar-other-month.calendar-weekend {
   color: rgba(255, 255, 255, 0.5);
 }
+
+/* === SUNSET SUNRISE DIALOG ===*/
+
+.timers-dialog-content {
+  spacing: 12px;
+}
+
+.timers-dialog-inputs {
+  spacing: 12px;
+}
+
+.timers-dialog-input-row {
+  spacing: 12px;
+}
+
+.timers-dialog-input-row StLabel {
+  min-width: 80px;
+}
+
+.timers-dialog-input-row StEntry {
+  width: 100px;
+}
