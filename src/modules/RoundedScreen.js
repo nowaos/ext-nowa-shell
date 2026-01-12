@@ -1,6 +1,3 @@
-// SPDX-FileCopyrightText: Nowa Desktop Contributors
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 import Gio from 'gi://Gio'
 import St from 'gi://St'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'

@@ -1,6 +1,3 @@
-// SPDX-FileCopyrightText: Nowa Desktop Contributors
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 
 import { Logger } from '../services/Logger.js'

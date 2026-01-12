@@ -1,6 +1,3 @@
-// SPDX-FileCopyrightText: Nowa Desktop Contributors
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 /**
  * Translations interface - Wrapper for GNOME Shell gettext
  *

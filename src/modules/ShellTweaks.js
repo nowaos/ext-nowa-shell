@@ -1,6 +1,3 @@
-// SPDX-FileCopyrightText: Nowa Desktop Contributors
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 import * as WorkspaceSwitcherPopup from 'resource:///org/gnome/shell/ui/workspaceSwitcherPopup.js'
 import * as WindowPreview from 'resource:///org/gnome/shell/ui/windowPreview.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
