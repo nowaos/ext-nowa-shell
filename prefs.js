@@ -90,10 +90,32 @@ export default class NowaShellPreferences extends ExtensionPreferences {
 
     notificationsGroup.add(focusRow)
 
+    // Dash to Dock theme
+
+    const dashToDockGroup = new Adw.PreferencesGroup({
+      title: 'Dash to Dock',
+      description: 'Simplified appearance for Dash to Dock extension',
+    })
+
+    const dashTweaksRow = new Adw.SwitchRow({
+      title: 'Simplify Dash to Dock',
+      subtitle: 'Cleaner design: translucent background, no hover effects',
+    })
+
+    settings.bind(
+      'enable-dash-to-dock-theme',
+      dashTweaksRow,
+      'active',
+      0 // Gio.SettingsBindFlags.DEFAULT
+    )
+
+    dashToDockGroup.add(dashTweaksRow)
+
     // Page
 
     page.add(calendarGroup)
     page.add(notificationsGroup)
+    page.add(dashToDockGroup)
     window.add(page)
   }
 }

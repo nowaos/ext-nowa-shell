@@ -37,5 +37,10 @@
       <description>Time to switch to dark theme (HH:MM format)</description>
     </key>
 
+    <key name="enable-dash-to-dock-theme" type="b">
+      <default>true</default>
+      <summary>Enable Dash to Dock</summary>
+      <description>Simplify Dash to Dock appearance with cleaner styling</description>
+    </key>
   </schema>
 </schemalist>

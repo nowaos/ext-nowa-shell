@@ -4,7 +4,6 @@
 import { _BaseModule } from './_BaseModule.js'
 import { Logger } from '../services/Logger.js'
 import { DateMenuService } from '../services/DateMenuService.js'
-import SignalManager from '../services/SignalManager.js'
 
 /**
  * CalendarManager - Manages calendar minification features
@@ -12,14 +11,12 @@ import SignalManager from '../services/SignalManager.js'
  * Handles hiding/showing World Clocks and Weather sections
  */
 export class CalendarManager extends _BaseModule {
-  #signalManager
   #dateMenuService = null
 
   constructor (...args) {
     super(...args)
 
     this.#dateMenuService = new DateMenuService(this.main)
-    this.#signalManager = new SignalManager()
 
     this.dateMenu = this.main.panel.statusArea.dateMenu
     this.messageList = this.dateMenu._messageList
@@ -39,13 +36,13 @@ export class CalendarManager extends _BaseModule {
     const isHideClocks = this.settings.get_boolean('hide-cal-clocks')
     const isHideWeather = this.settings.get_boolean('hide-cal-weather')
 
-    this.#signalManager.connectOn(this.settings, 'changed::hide-cal-clocks', () => {
+    this.signalManager.connectOn(this.settings, 'changed::hide-cal-clocks', () => {
       const enabled = this.settings.get_boolean('hide-cal-clocks')
 
       this.#hideClocks(enabled)
     })
 
-    this.#signalManager.connectOn(this.settings, 'changed::hide-cal-weather', () => {
+    this.signalManager.connectOn(this.settings, 'changed::hide-cal-weather', () => {
       const enabled = this.settings.get_boolean('hide-cal-weather')
 
       this.#hideWeater(enabled)
@@ -66,7 +63,7 @@ export class CalendarManager extends _BaseModule {
   disable () {
     Logger.log('CalendarManager: Disabling')
 
-    this.#signalManager.disconnectAll()
+    this.signalManager.disconnectAll()
     this.#hideClocks(false)
     this.#hideWeater(false)
     this.#hideMessageList(false)

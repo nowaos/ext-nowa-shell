@@ -10,6 +10,7 @@ import { NotificationsManager } from './src/modules/NotificationsManager.js'
 import { RoundedScreen } from './src/modules/RoundedScreen.js'
 import { ShellTweaks } from './src/modules/ShellTweaks.js'
 import { ThemeScheduler } from './src/modules/ThemeScheduler.js'
+import { DashToDockThemer } from './src/modules/DashToDockThemer.js'
 
 /**
  * Nowa Shell - GNOME Shell interface customizations
@@ -29,7 +30,8 @@ export default class NowaShellExtension extends Extension {
     NotificationsManager,
     CalendarManager,
     PowerButtonManager,
-    ThemeScheduler
+    ThemeScheduler,
+    DashToDockThemer
   ]
   #modules = []
 

@@ -7,7 +7,6 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import { ControlsState } from 'resource:///org/gnome/shell/ui/overviewControls.js'
 
 import { _BaseModule } from './_BaseModule.js'
-import SignalManager from '../services/SignalManager.js'
 import { t } from '../interfaces/translations.js'
 
 /**
@@ -18,13 +17,6 @@ export class ShellTweaks extends _BaseModule {
   #startupCompleteSignal = null
   #displayWindowDemandsAttentionSignal = null
   #displayWindowMarkedUrgentSignal = null
-  #signalManager
-
-  constructor (...args) {
-    super(...args)
-
-    this.#signalManager = new SignalManager()
-  }
 
   enable () {
     // Disable workspace popup
@@ -45,7 +37,7 @@ export class ShellTweaks extends _BaseModule {
     }
 
     // Monitor setting changes
-    this.#signalManager.connectOn(this.settings, 'changed::window-demands-attention-focus', () => {
+    this.signalManager.connectOn(this.settings, 'changed::window-demands-attention-focus', () => {
       if (this.settings.get_boolean('window-demands-attention-focus')) {
         this.#enableWindowDemandsAttentionFocus()
       } else {
@@ -71,7 +63,7 @@ export class ShellTweaks extends _BaseModule {
     this.#enableDashPinNotifications()
 
     // Disconnect settings signals
-    this.#signalManager.disconnectAll()
+    this.signalManager.disconnectAll()
   }
 
   /**

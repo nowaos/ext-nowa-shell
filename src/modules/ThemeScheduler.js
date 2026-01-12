@@ -5,7 +5,6 @@ import Gio from 'gi://Gio'
 import GLib from 'gi://GLib'
 
 import { _BaseModule } from './_BaseModule.js'
-import SignalManager from '../services/SignalManager.js'
 import { CustomDarkToggle } from '../views/CustomDarkToggle/index.js'
 
 /**
@@ -17,13 +16,11 @@ export class ThemeScheduler extends _BaseModule {
   #themeCheckTimer
   #manuallySet = true
   #applying = false
-  #signalManager
   #customToggle
 
   constructor (...args) {
     super(...args)
 
-    this.#signalManager = new SignalManager()
     this.#interfaceSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.interface'})
   }
 
@@ -32,11 +29,11 @@ export class ThemeScheduler extends _BaseModule {
   }
 
   enable () {
-    this.#signalManager.connectAs('manuallySet',
+    this.signalManager.connectAs('manuallySet',
       this.#interfaceSettings, 'changed::color-scheme', () => this.#manuallySet = true
     )
 
-    this.#signalManager.connectOn(this.settings, 'changed::enable-theme-timers', () => {
+    this.signalManager.connectOn(this.settings, 'changed::enable-theme-timers', () => {
       if (this.isEnabled) {
         this.#manuallySet = true
 
@@ -55,7 +52,7 @@ export class ThemeScheduler extends _BaseModule {
 
   disable () {
     this.#unwatchTime()
-    this.#signalManager.disconnectAll()
+    this.signalManager.disconnectAll()
 
     this.#restoreToggle()
     this.#interfaceSettings = null
@@ -148,12 +145,12 @@ export class ThemeScheduler extends _BaseModule {
     }
 
     if (currentTheme !== targetTheme) {
-      this.#signalManager.pause('manuallySet')
+      this.signalManager.pause('manuallySet')
 
       this.#interfaceSettings.set_string('color-scheme', targetTheme)
 
       if (this.isEnabled) {
-        this.#signalManager.resume('manuallySet')
+        this.signalManager.resume('manuallySet')
       }
     }
 

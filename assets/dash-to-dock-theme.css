@@ -1,0 +1,25 @@
+/* Dash to Dock theme */
+
+/* Background preto com 50% opacidade */
+#dashtodockContainer.bottom #dash .dash-background {
+  /* background-color: rgba(34, 34, 38, 0.75) !important; */
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Remover background do hover */
+#dashtodockContainer .dash-item-container .overview-tile:hover .overview-icon,
+#dashtodockContainer .dash-item-container .show-apps:hover .overview-icon {
+  background-color: transparent !important;
+}
+
+/* Remover background do focused (active) */
+#dashtodockContainer .dash-item-container .overview-tile.focused .overview-icon,
+#dashtodockContainer .dash-item-container .app-well-app.focused > .overview-icon {
+  background-color: transparent !important;
+}
+
+/* Remover :active do ShowApps */
+#dashtodockContainer .show-apps:active .overview-icon,
+#dashtodockContainer .show-apps:checked .overview-icon {
+  background-color: transparent !important;
+}
