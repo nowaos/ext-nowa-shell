@@ -11,7 +11,7 @@ import { Logger } from '../services/Logger.js'
 export class _BaseModule {
   constructor (settings, extensionDir) {
     this.settings = settings
-    this.extensionDir = extensionDir
+    this.dir = extensionDir
   }
 
   get name () {

@@ -35,7 +35,7 @@ export default class NowaShellExtension extends Extension {
     const settings = this.getSettings()
 
     // Initialize Rounded Screen
-    this.#roundedScreen = new RoundedScreen(this.dir)
+    this.#roundedScreen = new RoundedScreen(settings, this.dir)
     this.#roundedScreen.enable()
 
     // Initialize Shell Tweaks

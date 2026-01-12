@@ -15,13 +15,6 @@ const CORNER_RADIUS = 6
 export class RoundedScreen extends _BaseModule {
   #corners = {}
   #monitorListener = null
-  #extensionDir
-
-  constructor (extensionDir) {
-    super()
-
-    this.#extensionDir = extensionDir
-  }
 
   enable () {
     // Monitor changes to redraw corners
@@ -51,7 +44,7 @@ export class RoundedScreen extends _BaseModule {
     this.#destroy()
 
     const radius = CORNER_RADIUS
-    const cornerDir = this.#extensionDir.get_child('assets').get_child('corners').get_path()
+    const cornerDir = this.dir.get_child('assets').get_child('corners').get_path()
 
     for (let monitor of Main.layoutManager.monitors) {
       let geometryScale = monitor.geometry_scale || 1
