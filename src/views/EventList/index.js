@@ -100,7 +100,7 @@ export class EventList extends _BaseView {
 
     if (events.length === 0) {
       const noEvents = new St.Label({
-        text: 'Nenhum evento para este dia.',
+        text: 'No events for this day.',
         style_class: 'no-events',
         y_expand: true,
         y_align: Clutter.ActorAlign.CENTER,
