@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: Nowa Shell Contributors
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+import Gio from 'gi://Gio'
+import GLib from 'gi://GLib'
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 import * as SystemActions from 'resource:///org/gnome/shell/misc/systemActions.js'
 
@@ -142,17 +144,20 @@ export class PowerButtonManager extends _BaseModule {
       })
 
       this.#addCustomMenuItem('Restart', 'system-reboot-symbolic', () => {
-        this.#systemActions.activateRestart()
+        // this.#systemActions.activateRestart()
+        this.#immediateRestart()
         this.main.panel.closeQuickSettings()
       })
 
       this.#addCustomMenuItem('Log out', 'system-log-out-symbolic', () => {
-        this.#systemActions.activateLogout()
+        // this.#systemActions.activateLogout()
+        this.#immediateLogout()
         this.main.panel.closeQuickSettings()
       })
 
       this.#addCustomMenuItem('Shut down', 'system-shutdown-symbolic', () => {
-        this.#systemActions.activatePowerOff()
+        // this.#systemActions.activatePowerOff()
+        this.#immediateShutdown()
         this.main.panel.closeQuickSettings()
       })
     } catch (e) {
@@ -194,5 +199,50 @@ export class PowerButtonManager extends _BaseModule {
 
     this.#shutdownItem.menu.addMenuItem(item)
     this.#customMenuItems.push(item)
+  }
+
+  #immediateRestart () {
+    Gio.DBus.system.call(
+			'org.freedesktop.login1',
+			'/org/freedesktop/login1',
+			'org.freedesktop.login1.Manager',
+			'Reboot',
+			new GLib.Variant("(b)", [false]),
+			null,
+			Gio.DBusCallFlags.NONE,
+			-1,
+			null,
+			null
+		)
+  }
+
+  #immediateLogout () {
+    Gio.DBus.session.call(
+			"org.gnome.SessionManager",
+			"/org/gnome/SessionManager",
+			"org.gnome.SessionManager",
+			'Logout',
+			new GLib.Variant("(u)", [2]),
+			null,
+			Gio.DBusCallFlags.NONE,
+			-1,
+			null,
+			null
+		)
+  }
+
+  #immediateShutdown () {
+    Gio.DBus.system.call(
+			'org.freedesktop.login1',
+			'/org/freedesktop/login1',
+			'org.freedesktop.login1.Manager',
+			'PowerOff',
+			new GLib.Variant("(b)", [false]),
+			null,
+			Gio.DBusCallFlags.NONE,
+			-1,
+			null,
+			null
+		)
   }
 }
