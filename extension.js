@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js'
-import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 
 import { Logger } from './src/services/Logger.js'
 import { CalendarManager } from './src/modules/CalendarManager.js'
@@ -24,75 +23,41 @@ import { ThemeScheduler } from './src/modules/ThemeScheduler.js'
  * - Notification indicator with badge
  */
 export default class NowaShellExtension extends Extension {
-  #calendarManager
-  #powerButtonManager
-  #notificationsManager
-  #roundedScreen
-  #shellTweaks
-  #themeScheduler
+  #moduleClasses = [
+    RoundedScreen,
+    ShellTweaks,
+    NotificationsManager,
+    CalendarManager,
+    PowerButtonManager,
+    ThemeScheduler
+  ]
+  #modules = []
 
   enable () {
     const settings = this.getSettings()
 
-    // Initialize Rounded Screen
-    this.#roundedScreen = new RoundedScreen(settings, this.dir)
-    this.#roundedScreen.enable()
+    this.#moduleClasses.forEach(Constructor => {
+      try {
+        const module = new Constructor(settings, this.dir)
 
-    // Initialize Shell Tweaks
-    this.#shellTweaks = new ShellTweaks(settings, this.dir)
-    this.#shellTweaks.enable()
+        module.enable()
 
-    // Initialize Calendar Manager
-    this.#calendarManager = new CalendarManager(settings, this.dir)
-    this.#calendarManager.enable()
-
-    // Initialize Power Button Manager
-    this.#powerButtonManager = new PowerButtonManager(settings, this.dir)
-    this.#powerButtonManager.enable()
-
-    // Initialize Notification Manager
-    this.#notificationsManager = new NotificationsManager(settings, this.dir)
-    this.#notificationsManager.enable()
-
-    // Initialize Theme Scheduler
-    this.#themeScheduler = new ThemeScheduler(settings)
-    this.#themeScheduler.enable()
+        this.#modules.push(module)
+      } catch (error) {
+        Logger.error(`Failed to enable ${module.name}`, error)
+      }
+    })
   }
 
   disable () {
-    // Disable Rounded Screen
-    if (this.#roundedScreen) {
-      this.#roundedScreen.disable()
-      this.#roundedScreen = null
-    }
+    this.#modules.reverse().forEach(module => {
+      try {
+        module.disable()
+      } catch (error) {
+        Logger.error(`Failed to disable ${module.name}`, error)
+      }
+    })
 
-    // Disable Shell Tweaks
-    if (this.#shellTweaks) {
-      this.#shellTweaks.disable()
-      this.#shellTweaks = null
-    }
-
-    // Disable Notification Manager
-    if (this.#notificationsManager) {
-      this.#notificationsManager.disable()
-      this.#notificationsManager = null
-    }
-
-    // Disable Power Button Manager
-    if (this.#powerButtonManager) {
-      this.#powerButtonManager.disable()
-      this.#powerButtonManager = null
-    }
-
-    // Disable Calendar Manager
-    if (this.#calendarManager) {
-      this.#calendarManager.disable()
-      this.#calendarManager = null
-    }
-
-    if (this.#themeScheduler) {
-      this.#themeScheduler.disable()
-      this.#themeScheduler = null
-    }
+    this.#modules = []
   }
 }

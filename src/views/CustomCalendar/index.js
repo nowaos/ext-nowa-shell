@@ -3,6 +3,7 @@ import Gio from 'gi://Gio'
 import GLib from 'gi://GLib'
 import SignalManager from '../../services/SignalManager.js'
 import _BaseView from '../_BaseView.js'
+import { Logger } from '../../services/Logger.js'
 
 export class CustomCalendar extends _BaseView {
   _originalHeaderFormat
@@ -135,7 +136,7 @@ export class CustomCalendar extends _BaseView {
 
       this.dateMenu.menu.close()
     } catch (e) {
-      console.error('Failed to open GNOME Calendar:', e)
+      Logger.error('Failed to open GNOME Calendar:', e)
     }
   }
 }

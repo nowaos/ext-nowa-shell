@@ -23,7 +23,7 @@ export class _BaseModule {
     Logger.debug(this.name, message)
   }
 
-  warn (message) {
-    Logger.error(this.name, message)
+  warn (message, error) {
+    Logger.error(message, error)
   }
 }

@@ -12,7 +12,6 @@ import { CustomDarkToggle } from '../views/CustomDarkToggle/index.js'
 * ThemeScheduler module - automatically switches between light/dark theme based on time
 */
 export class ThemeScheduler extends _BaseModule {
-  #settings
   #interfaceSettings
   #themeCheckTimer = null
   #manuallySet = true
@@ -20,25 +19,23 @@ export class ThemeScheduler extends _BaseModule {
   #signalManager
   #customToggle
 
-  constructor (settings) {
-    super()
+  constructor (...args) {
+    super(...args)
 
-    this.#settings = settings
     this.#signalManager = new SignalManager()
     this.#interfaceSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.interface'})
   }
 
   get isEnabled () {
-    return this.#settings.get_boolean('enable-theme-timers')
+    return this.settings.get_boolean('enable-theme-timers')
   }
 
   enable () {
-    // Listen theme changes
     this.#signalManager.connectAs('manuallySet',
       this.#interfaceSettings, 'changed::color-scheme', () => this.#manuallySet = true
     )
 
-    this.#signalManager.connectOn(this.#settings, 'changed::enable-theme-timers', () => {
+    this.#signalManager.connectOn(this.settings, 'changed::enable-theme-timers', () => {
       if (this.isEnabled) {
         this.#manuallySet = true
 
@@ -102,12 +99,12 @@ export class ThemeScheduler extends _BaseModule {
     const currentTimeInMinutes = currentHour * 60 + currentMinute
 
     // Parse sunrise time (HH:MM)
-    const sunriseTime = this.#settings.get_string('sunrise-time')
+    const sunriseTime = this.settings.get_string('sunrise-time')
     const [sunriseHour, sunriseMinute] = sunriseTime.split(':').map(n => parseInt(n))
     const sunriseInMinutes = sunriseHour * 60 + sunriseMinute
 
     // Parse sunset time (HH:MM)
-    const sunsetTime = this.#settings.get_string('sunset-time')
+    const sunsetTime = this.settings.get_string('sunset-time')
     const [sunsetHour, sunsetMinute] = sunsetTime.split(':').map(n => parseInt(n))
     const sunsetInMinutes = sunsetHour * 60 + sunsetMinute
 
@@ -154,7 +151,7 @@ export class ThemeScheduler extends _BaseModule {
 
   #replaceToggle () {
     this.#customToggle = new CustomDarkToggle({
-      settings: this.#settings
+      settings: this.settings
     })
 
     this.#customToggle.replace()

@@ -45,7 +45,8 @@ function initTranslations () {
 
   // Fallback: Return original string (no translation)
   translationFunction = (text) => text
-  console.warn('Nowa Desktop: Translation system not available, using fallback')
+
+  console.error('Translation system not available, using fallback')
 }
 
 /**

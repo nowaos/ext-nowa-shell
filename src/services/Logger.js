@@ -9,11 +9,11 @@ export class Logger {
     console.log(`Nowa Shell: ${message}`, ...args)
   }
 
-  static debug (module, message) {
-    console.log(`Nowa Shell [${module}]: ${message}`)
+  static error (message, e) {
+    console.error(`Nowa Shell: ${message}`, e)
   }
 
-  static error (module, message) {
-    console.error(`Nowa Shell [${module}]: ${message}`)
+  static debug (module, message) {
+    console.log(`Nowa Shell [${module}]: ${message}`)
   }
 }

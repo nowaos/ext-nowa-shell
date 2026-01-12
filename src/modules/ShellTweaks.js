@@ -298,7 +298,8 @@ export class ShellTweaks extends _BaseModule {
     const MessageTray = Main.messageTray.constructor
 
     if (!MessageTray || !MessageTray.prototype._updateState) {
-      this.warn('MessageTray._updateState not found')
+      this.log('MessageTray._updateState not found')
+
       return
     }
 
