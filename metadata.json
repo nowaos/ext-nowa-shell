@@ -1,10 +1,8 @@
 {
   "name": "Nowa Shell",
-  "description": "GNOME Shell interface customizations with modern rounded design",
+  "description": "Light visual and usability adjustments for GNOME Shell",
   "uuid": "nowa-shell@nowaos",
-  "shell-version": [
-    "48"
-  ],
+  "shell-version": ["48"],
   "url": "https://github.com/nowaos/ext-nowa-shell",
   "version": 1,
   "settings-schema": "org.gnome.shell.extensions.nowa-shell"
