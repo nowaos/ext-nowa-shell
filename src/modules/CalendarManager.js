@@ -71,36 +71,20 @@ export class CalendarManager extends _BaseModule {
     this.#dateMenuService.disable()
   }
 
-  #hideClocks (enable) {
-    if (enable) {
-      this.clocksItem._nowaOriginalShow = this.clocksItem.show
-      this.clocksItem.show = () => {
-        console.log(this.#name, 'Disabled by Nowa Shell')
-      }
-      this.clocksItem.hide()
-
-      return
+  #hideClocks (enabled) {
+    if (enabled) {
+      this.clocksItem.add_style_class_name('calendar-widgets-hidden')
+    } else {
+      this.clocksItem.remove_style_class_name('calendar-widgets-hidden')
     }
-
-    this.clocksItem.show = this.clocksItem._nowaOriginalShow
-    this.clocksItem.show()
   }
 
-  #hideWeater (enable) {
-    if (enable) {
-      this.weatherItem._nowaOriginalShow = this.weatherItem.show
-      this.weatherItem.show = () => {
-        console.debug(this.#name, 'Disabled by Nowa Shell')
-      }
-      this.weatherItem.hide()
-
-      return
+  #hideWeater (enabled) {
+    if (enabled) {
+      this.weatherItem.add_style_class_name('calendar-widgets-hidden')
+    } else {
+      this.weatherItem.remove_style_class_name('calendar-widgets-hidden')
     }
-
-    this.weatherItem.show = this.weatherItem._nowaOriginalShow
-    this.weatherItem.show()
-
-    delete this.weatherItem._nowaOriginalShow
   }
 
   #hideMessageList (enable) {

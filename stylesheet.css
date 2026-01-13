@@ -201,6 +201,19 @@
 
 /* === CALENDAR === */
 
+.calendar-widgets-hidden,
+.calendar-widgets-hidden * {
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  font-size: 0 !important;
+  spacing: 0 !important;
+}
+
 #calendarArea {
   padding: 0; /* + 6px from .popup-menu-content */
 }
