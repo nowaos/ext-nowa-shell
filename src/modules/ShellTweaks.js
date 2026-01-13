@@ -297,7 +297,7 @@ export class ShellTweaks extends _BaseModule {
       this.#originals['messageTrayUpdateState'] = MessageTray.prototype._updateState
     }
 
-    const originalUpdateState = this.#originals['messageTrayUpdateState'] // salva em variável local
+    const originalUpdateState = this.#originals['messageTrayUpdateState']
 
     // Override _updateState to filter notifications
     MessageTray.prototype._updateState = function () {
@@ -327,9 +327,9 @@ export class ShellTweaks extends _BaseModule {
 
         return true
       })
-
-      originalUpdateState.call(this)
     }
+
+    originalUpdateState.call(this)
 
     this.log('Dash pin notifications disabled')
   }

@@ -1,12 +1,8 @@
-// SPDX-FileCopyrightText: Nowa Shell Contributors
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 import Gio from 'gi://Gio'
 import GLib from 'gi://GLib'
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 import * as SystemActions from 'resource:///org/gnome/shell/misc/systemActions.js'
 
-import { Logger } from '../services/Logger.js'
 import { _BaseModule } from './_BaseModule.js'
 
 /**
@@ -38,14 +34,14 @@ export class PowerButtonManager extends _BaseModule {
     this.#quickSettings = this.main.panel.statusArea.quickSettings
 
     if (!this.#quickSettings?._system?._systemItem) {
-      Logger.debug(this.#name, 'Quick Settings system not found')
+      this.log('Quick Settings system not found')
 
       return
     }
 
     const containerRow = this.#quickSettings._system._systemItem.child
     if (!containerRow) {
-      Logger.debug(this.#name, 'Container row not found')
+      this.log('Container row not found')
 
       return
     }
@@ -55,7 +51,7 @@ export class PowerButtonManager extends _BaseModule {
     this.#shutdownItem = systemItems.find(child => child.constructor?.name === 'ShutdownItem')
 
     if (!this.#shutdownItem) {
-      Logger.debug(this.#name, 'Shutdown button not found')
+      this.log('Shutdown button not found')
 
       return
     }
@@ -81,7 +77,7 @@ export class PowerButtonManager extends _BaseModule {
 
       containerRow.insert_child_at_index(this.#settingsButton, shutdownIndex)
     } else {
-      Logger.debug(this.#name, `Could not reorder - settingsButton: ${!!this.#settingsButton}, shutdownItem: ${!!this.#shutdownItem}`)
+      this.log(`Could not reorder - settingsButton: ${!!this.#settingsButton}, shutdownItem: ${!!this.#shutdownItem}`)
     }
 
     this.#modifyMenu()
@@ -161,7 +157,7 @@ export class PowerButtonManager extends _BaseModule {
         this.main.panel.closeQuickSettings()
       })
     } catch (e) {
-      Logger.debug(this.#name, `Error modifying menu: ${e}`)
+      this.log(`Error modifying menu: ${e}`)
     }
   }
 
@@ -192,7 +188,7 @@ export class PowerButtonManager extends _BaseModule {
     const item = new PopupMenu.PopupImageMenuItem(label, iconName)
 
     item.connect('activate', () => {
-      Logger.debug(this.#name, `${label} activated`)
+      this.log(`${label} activated`)
 
       callback()
     })

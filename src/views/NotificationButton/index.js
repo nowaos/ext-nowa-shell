@@ -16,7 +16,7 @@ export default GObject.registerClass(
 
       this._buildIcon()
 
-      this._service = new NotificationService(main)
+      this._service = new NotificationService()
       this._service.init()
       this._service.connect('notify::empty', () => this._syncEmpty(), this)
       this._service.connect('notify::can-clear', () => this._syncClear(), this)

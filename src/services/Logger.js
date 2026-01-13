@@ -1,8 +1,5 @@
-// SPDX-FileCopyrightText: Nowa Shell Contributors
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 /**
- * Logger service - Simple logging utilities
+ * Logger - Simple logging utilities
  */
 export class Logger {
   static log (message, ...args) {

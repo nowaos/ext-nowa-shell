@@ -1,6 +1,3 @@
-// SPDX-FileCopyrightText: Nowa Shell Contributors
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 import { _BaseModule } from './_BaseModule.js'
 import { Logger } from '../services/Logger.js'
 import { DateMenuService } from '../services/DateMenuService.js'

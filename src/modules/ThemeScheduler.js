@@ -9,9 +9,10 @@ import { CustomDarkToggle } from '../views/CustomDarkToggle/index.js'
 */
 export class ThemeScheduler extends _BaseModule {
   #interfaceSettings
+  #layoutManager
   #alignmentTimer
   #themeCheckTimer
-  #manuallySet = true
+  #manuallySet = false
   #applying = false
   #customToggle
 
@@ -19,6 +20,7 @@ export class ThemeScheduler extends _BaseModule {
     super(...args)
 
     this.#interfaceSettings = new Gio.Settings({ schema_id: 'org.gnome.desktop.interface'})
+    this.#layoutManager = this.main.layoutManager
   }
 
   get isEnabled () {
@@ -38,6 +40,12 @@ export class ThemeScheduler extends _BaseModule {
       } else {
         this.#unwatchTime()
       }
+    })
+
+    this.signalManager.connectOn(this.#layoutManager, 'startup-complete', () => {
+      this.log('Startup complete, checking theme...')
+
+      this.#checkAndApply()
     })
 
     if (this.isEnabled) {

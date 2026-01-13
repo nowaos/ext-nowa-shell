@@ -1,6 +1,3 @@
-// SPDX-FileCopyrightText: Nowa Shell Contributors
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 import Clutter from 'gi://Clutter'
 import { _BaseModule } from './_BaseModule.js'
 import NotificationButton from '../views/NotificationButton/index.js'

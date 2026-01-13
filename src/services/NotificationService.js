@@ -1,10 +1,6 @@
-// SPDX-FileCopyrightText: Nowa Shell Contributors
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 import { Logger } from './Logger.js'
 import * as MessageList from 'resource:///org/gnome/shell/ui/messageList.js'
 import Gio from 'gi://Gio'
-import GdkPixbuf from 'gi://GdkPixbuf'
 
 /**
  * NotificationService - Manages system notifications
@@ -12,15 +8,13 @@ import GdkPixbuf from 'gi://GdkPixbuf'
  * Provides access to GNOME Shell's notification system using MessageList
  */
 export class NotificationService {
-  #main
   #messageList = null
   #messagesCount = 0
   #settings
   #signalIds = { list: [], settings: [] }
   #callbacks = { onUpdate: [], onMuteChange: [] }
 
-  constructor (main) {
-    this.#main = main
+  constructor () {
     this.#settings = new Gio.Settings({ schema: 'org.gnome.desktop.notifications' })
   }
 
