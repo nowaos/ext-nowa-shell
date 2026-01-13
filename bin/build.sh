@@ -17,7 +17,7 @@ fi
 
 ZIP_NAME="$UUID.zip"
 BUILD_DIR="$(mktemp -d)"
-EXT_DIR="$BUILD_DIR/$UUID"
+EXT_DIR="$BUILD_DIR"
 
 echo "Building extension for UUID: $UUID"
 
@@ -33,8 +33,7 @@ rm -rf \
   "$EXT_DIR/README.md" \
   "$EXT_DIR/bin" \
   "$EXT_DIR/build" \
-  "$EXT_DIR/previews" \
-  "$EXT_DIR"/*.zip
+  "$EXT_DIR/previews"
 
 # Create zip with correct folder structure
 cd "$BUILD_DIR"
