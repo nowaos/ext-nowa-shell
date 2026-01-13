@@ -11,11 +11,11 @@ Light visual and usability adjustments for GNOME Shell 48.
 - Fine-tuned shell appearance with corrected border radius and padding
 - Subtly rounded screen corners
 - Dedicated notification panel separated from calendar
-- Enhanced calendar with improved event list
+- Calendar with enhanced event list
 - Suppresses redundant notifications ("app is ready", "app has been pinned")
-- Power panel with immediate actions (Lock, Sleep, Restart, Log out, Shut down)
-- Dark Style toggle with automatic theme switching based on Sunset/Sunrise times
-- Optional minimalist Dash to Dock theme
+- Power panel with direct actions
+- Dark Style toggle with automatic theme switching menu
+- Minimalist Dash to Dock theme (optional)
 
 ## Installation
 
