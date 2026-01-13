@@ -1,4 +1,5 @@
 import St from 'gi://St'
+import Clutter from 'gi://Clutter'
 import { EventList } from '../views/EventList/index.js'
 import { CustomCalendar } from '../views/CustomCalendar/index.js'
 
@@ -106,6 +107,7 @@ export class DateMenuService {
   }
 
   #replaceEvents () {
+    this.#bindColumnHeights()
     this.#saveRemoveFromParent(this.eventsItem)
     this.#getOriginalParentFrom(this.eventsItem).add_child(this.#eventList.el)
 
@@ -113,7 +115,28 @@ export class DateMenuService {
   }
 
   #undoReplaceEvents () {
+    this.#unbindColumnHeights()
     this.#getOriginalParentFrom(this.eventsItem).remove_child(this.#eventList.el)
     this.#restoreOriginalParent(this.eventsItem, 2)
+  }
+
+  #bindColumnHeights () {
+    const firstColumn = this.calendar.get_parent()
+    const secondColumn = this.eventsItem.get_parent()
+
+    secondColumn._nowaConstraint = new Clutter.BindConstraint({
+      source: firstColumn,
+      coordinate: Clutter.BindCoordinate.HEIGHT
+    })
+
+    secondColumn.add_constraint(secondColumn._nowaConstraint)
+  }
+
+  #unbindColumnHeights () {
+    const secondColumn = this.#getOriginalParentFrom(this.eventsItem)
+
+    secondColumn.remove_constraint(secondColumn._nowaConstraint)
+
+    delete secondColumn._nowaConstraint
   }
 }
