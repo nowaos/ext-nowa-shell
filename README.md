@@ -34,7 +34,7 @@ chmod +x bin/install.sh
 
 ## Code Style
 
-This project follows StandardJS style: [https://standardjs.com/]().
+This project follows StandardJS style: [https://standardjs.com](https://standardjs.com).
 
 ## Buy Me a Coffee
 
