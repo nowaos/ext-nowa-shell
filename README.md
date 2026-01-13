@@ -1,8 +1,12 @@
 # Nowa Shell
 
-Modern GNOME Shell interface customizations for GNOME Shell 48.
+Light visual and usability adjustments for GNOME Shell 48.
 
 ## Features
+
+<p align="center">
+  <img src="previews/preview.png" />
+</p>
 
 - Fine-tuned shell appearance with corrected border radius and padding
 - Subtly rounded screen corners
