@@ -4,6 +4,6 @@
   "uuid": "nowa-shell@nowaos",
   "shell-version": ["48"],
   "url": "https://github.com/nowaos/ext-nowa-shell",
-  "version": 1,
+  "version": 2,
   "settings-schema": "org.gnome.shell.extensions.nowa-shell"
 }
