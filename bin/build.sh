@@ -37,6 +37,7 @@ rm -rf \
 
 # Create zip with correct folder structure
 cd "$BUILD_DIR"
+glib-compile-schemas "./schemas" 2>&1
 zip -r "$PROJECT_ROOT/build/$ZIP_NAME" . > /dev/null
 
 # Cleanup
