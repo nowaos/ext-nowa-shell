@@ -327,9 +327,9 @@ export class ShellTweaks extends _BaseModule {
 
         return true
       })
-    }
 
-    originalUpdateState.call(this)
+      originalUpdateState.call(this)
+    }
 
     this.log('Dash pin notifications disabled')
   }
