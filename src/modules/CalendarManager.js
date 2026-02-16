@@ -1,13 +1,14 @@
-import { _BaseModule } from './_BaseModule.js'
-import { Logger } from '../services/Logger.js'
-import { DateMenuService } from '../services/DateMenuService.js'
+import BaseModule from './_BaseModule.js'
+
+import Logger from '../services/Logger.js'
+import DateMenuService from '../services/DateMenuService.js'
 
 /**
  * CalendarManager - Manages calendar minification features
  *
  * Handles hiding/showing World Clocks and Weather sections
  */
-export class CalendarManager extends _BaseModule {
+export class CalendarManager extends BaseModule {
   #dateMenuService = null
 
   constructor (...args) {

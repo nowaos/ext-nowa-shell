@@ -1,4 +1,4 @@
-import { Logger } from './Logger.js'
+import Logger from './Logger.js'
 import * as MessageList from 'resource:///org/gnome/shell/ui/messageList.js'
 import Gio from 'gi://Gio'
 
@@ -7,7 +7,7 @@ import Gio from 'gi://Gio'
  *
  * Provides access to GNOME Shell's notification system using MessageList
  */
-export class NotificationService {
+export default class NotificationService {
   #messageList = null
   #messagesCount = 0
   #settings

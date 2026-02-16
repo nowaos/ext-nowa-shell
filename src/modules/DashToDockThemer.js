@@ -1,14 +1,14 @@
 import Gio from 'gi://Gio'
 import St from 'gi://St'
 
-import { _BaseModule } from './_BaseModule.js'
+import BaseModule from './_BaseModule.js'
 
 /**
  * Dash to Dock Tweaks
  *
  * Simplifies Dash to Dock appearance by loading custom CSS
  */
-export class DashToDockThemer extends _BaseModule {
+export class DashToDockThemer extends BaseModule {
   #themeContext
   #appliedTheme
 

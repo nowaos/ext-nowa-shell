@@ -1,6 +1,6 @@
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 
-export default class _BaseView {
+export default class BaseView {
   constructor (props = {}) {
     this.el = null
     this.main = Main

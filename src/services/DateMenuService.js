@@ -1,9 +1,10 @@
 import St from 'gi://St'
 import Clutter from 'gi://Clutter'
-import { EventList } from '../views/EventList/index.js'
-import { CustomCalendar } from '../views/CustomCalendar/index.js'
 
-export class DateMenuService {
+import EventList from '../views/EventList/index.js'
+import CustomCalendar from '../views/CustomCalendar/index.js'
+
+export default class DateMenuService {
   #main
   #eventList
   #customCalendar

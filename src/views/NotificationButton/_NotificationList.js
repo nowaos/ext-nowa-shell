@@ -1,7 +1,7 @@
-import _BaseView from "../_BaseView.js"
+import BaseView from "../_BaseView.js"
 import St from 'gi://St'
 
-export default class NotificationList extends _BaseView {
+export default class NotificationList extends BaseView {
   constructor (messages) {
     super({ messages })
   }

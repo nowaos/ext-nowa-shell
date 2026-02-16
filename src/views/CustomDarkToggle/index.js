@@ -4,10 +4,10 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 import * as QuickSettings from 'resource:///org/gnome/shell/ui/quickSettings.js'
 
 import SignalManager from '../../services/SignalManager.js'
-import _BaseView from '../_BaseView.js'
-import { TimersSettingsDialog } from './TimersSettingsDialog.js'
+import BaseView from '../_BaseView.js'
+import TimersSettingsDialog from './TimersSettingsDialog.js'
 
-export class CustomDarkToggle extends _BaseView {
+export default class CustomDarkToggle extends BaseView {
   // props = settings
 
   get currentScheme () {

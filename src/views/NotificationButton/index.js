@@ -1,4 +1,3 @@
-import { Logger } from '../../services/Logger.js'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
 import Clutter from 'gi://Clutter'
@@ -7,7 +6,8 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
 import EmptyState from './_EmptyState.js'
 import NotificationControls from './_NotificationControls.js'
 import NotificationList from './_NotificationList.js'
-import { NotificationService } from '../../services/NotificationService.js'
+
+import NotificationService from '../../services/NotificationService.js'
 
 export default GObject.registerClass(
   class NotificationButton extends PanelMenu.Button {

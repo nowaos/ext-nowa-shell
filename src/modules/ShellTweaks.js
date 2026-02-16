@@ -3,13 +3,14 @@ import * as WindowPreview from 'resource:///org/gnome/shell/ui/windowPreview.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import { ControlsState } from 'resource:///org/gnome/shell/ui/overviewControls.js'
 
-import { _BaseModule } from './_BaseModule.js'
+import BaseModule from './_BaseModule.js'
+
 import { gettext } from '../interfaces/translations.js'
 
 /**
 * ShellTweaks - Various GNOME Shell UI tweaks
 */
-export class ShellTweaks extends _BaseModule {
+export class ShellTweaks extends BaseModule {
   #originals = {}
   #startupCompleteSignal = null
   #displayWindowDemandsAttentionSignal = null

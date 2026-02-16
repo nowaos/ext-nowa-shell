@@ -1,7 +1,7 @@
 /**
  * Logger - Simple logging utilities
  */
-export class Logger {
+export default class Logger {
   static log (message, ...args) {
     console.log(`Nowa Shell: ${message}`, ...args)
   }

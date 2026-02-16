@@ -2,12 +2,12 @@ import St from 'gi://St'
 import Gio from 'gi://Gio'
 import GLib from 'gi://GLib'
 import SignalManager from '../../services/SignalManager.js'
-import _BaseView from '../_BaseView.js'
-import { Logger } from '../../services/Logger.js'
+import BaseView from '../_BaseView.js'
+import Logger from '../../services/Logger.js'
 
 const DCLICK_TIMEOUT = 500
 
-export class CustomCalendar extends _BaseView {
+export default class CustomCalendar extends BaseView {
   _originalHeaderFormat
   _todayButton
   _activeButtonTimeouts = new Set()
