@@ -5,5 +5,8 @@
   "shell-version": ["48"],
   "url": "https://github.com/nowaos/ext-nowa-shell",
   "version": 2,
-  "settings-schema": "org.gnome.shell.extensions.nowa-shell"
+  "settings-schema": "org.gnome.shell.extensions.nowa-shell",
+  "donations": {
+    "custom": "https://www.paypal.com/donate/?hosted_button_id=KQXTZ4MH4JRZU"
+  }
 }
