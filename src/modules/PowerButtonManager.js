@@ -180,7 +180,7 @@ export class PowerButtonManager extends BaseModule {
       })
       this.#originalMenuItems = []
     } catch (e) {
-      Logger.debug(this.#name, `Error during disable: ${e}`)
+      Logger.error('PowerButtonManager undo changes', e)
     }
   }
 
