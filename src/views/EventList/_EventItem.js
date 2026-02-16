@@ -1,9 +1,9 @@
 // EventItem.js
 import St from 'gi://St'
 
-import _BaseView from '../_BaseView.js'
+import BaseView from '../_BaseView.js'
 
-export class EventItem extends _BaseView {
+export default class EventItem extends BaseView {
   constructor (event) {
     super({ event })
   }

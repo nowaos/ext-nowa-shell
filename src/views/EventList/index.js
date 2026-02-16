@@ -3,11 +3,11 @@ import St from 'gi://St'
 import GLib from 'gi://GLib'
 import Clutter from 'gi://Clutter'
 
-import _BaseView from '../_BaseView.js'
+import BaseView from '../_BaseView.js'
 import SignalManager from '../../services/SignalManager.js'
-import { EventItem } from './_EventItem.js'
+import EventItem from './_EventItem.js'
 
-export class EventList extends _BaseView {
+export default class EventList extends BaseView {
   constructor (calendar) {
     super({ calendar })
   }

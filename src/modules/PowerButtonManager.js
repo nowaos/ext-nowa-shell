@@ -3,14 +3,14 @@ import GLib from 'gi://GLib'
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 import * as SystemActions from 'resource:///org/gnome/shell/misc/systemActions.js'
 
-import { _BaseModule } from './_BaseModule.js'
+import BaseModule from './_BaseModule.js'
 
 /**
  * PowerButtonManager - Modifies the Power Off button menu
  *
  * Replaces the default menu items with simpler, direct actions
  */
-export class PowerButtonManager extends _BaseModule {
+export class PowerButtonManager extends BaseModule {
   #quickSettings
   #shutdownItem = null
   #lockItem = null
@@ -111,7 +111,7 @@ export class PowerButtonManager extends _BaseModule {
 
   #modifyMenu () {
     if (!this.#shutdownItem.menu) {
-      Logger.log(this.#name, 'Shutdown button has no menu')
+      Logger.debug(this.#name, 'Shutdown button has no menu')
 
       return
     }
@@ -180,7 +180,7 @@ export class PowerButtonManager extends _BaseModule {
       })
       this.#originalMenuItems = []
     } catch (e) {
-      Logger.log(this.#name, `Error during disable: ${e}`)
+      Logger.error('PowerButtonManager undo changes', e)
     }
   }
 

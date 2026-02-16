@@ -1,8 +1,9 @@
 import Clutter from 'gi://Clutter'
-import { _BaseModule } from './_BaseModule.js'
+
+import BaseModule from './_BaseModule.js'
 import NotificationButton from '../views/NotificationButton/index.js'
 
-export class NotificationsManager extends _BaseModule {
+export class NotificationsManager extends BaseModule {
   #button
   #messageTray
   #originalBannerAlignment

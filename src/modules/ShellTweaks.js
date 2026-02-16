@@ -3,13 +3,14 @@ import * as WindowPreview from 'resource:///org/gnome/shell/ui/windowPreview.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import { ControlsState } from 'resource:///org/gnome/shell/ui/overviewControls.js'
 
-import { _BaseModule } from './_BaseModule.js'
-import { t } from '../interfaces/translations.js'
+import BaseModule from './_BaseModule.js'
+
+import { gettext } from '../interfaces/translations.js'
 
 /**
 * ShellTweaks - Various GNOME Shell UI tweaks
 */
-export class ShellTweaks extends _BaseModule {
+export class ShellTweaks extends BaseModule {
   #originals = {}
   #startupCompleteSignal = null
   #displayWindowDemandsAttentionSignal = null
@@ -301,12 +302,12 @@ export class ShellTweaks extends _BaseModule {
 
     // Override _updateState to filter notifications
     MessageTray.prototype._updateState = function () {
-      const pinnedPattern = t('%s has been pinned to the dash.')
+      const pinnedPattern = gettext('%s has been pinned to the dash.')
         .replace('%s', '.*')
         .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
         .replace('\\.\\*', '.*')
 
-      const unpinnedPattern = t('%s has been unpinned from the dash.')
+      const unpinnedPattern = gettext('%s has been unpinned from the dash.')
         .replace('%s', '.*')
         .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
         .replace('\\.\\*', '.*')

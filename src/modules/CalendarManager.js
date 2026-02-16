@@ -1,13 +1,13 @@
-import { _BaseModule } from './_BaseModule.js'
-import { Logger } from '../services/Logger.js'
-import { DateMenuService } from '../services/DateMenuService.js'
+import BaseModule from './_BaseModule.js'
+
+import DateMenuService from '../services/DateMenuService.js'
 
 /**
  * CalendarManager - Manages calendar minification features
  *
  * Handles hiding/showing World Clocks and Weather sections
  */
-export class CalendarManager extends _BaseModule {
+export class CalendarManager extends BaseModule {
   #dateMenuService = null
 
   constructor (...args) {
@@ -45,11 +45,9 @@ export class CalendarManager extends _BaseModule {
       this.#hideWeater(enabled)
     })
 
-    setTimeout(() => {
-      this.#hideMessageList(true)
-      this.#hideClocks(isHideClocks)
-      this.#hideWeater(isHideWeather)
-    }, 200)
+    this.#hideMessageList(true)
+    this.#hideClocks(isHideClocks)
+    this.#hideWeater(isHideWeather)
 
     this.#dateMenuService.enable()
   }
@@ -58,8 +56,6 @@ export class CalendarManager extends _BaseModule {
    * Disable calendar management and restore original state
    */
   disable () {
-    Logger.log('CalendarManager: Disabling')
-
     this.signalManager.disconnectAll()
     this.#hideClocks(false)
     this.#hideWeater(false)

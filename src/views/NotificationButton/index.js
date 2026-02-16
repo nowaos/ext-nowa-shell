@@ -1,4 +1,3 @@
-import { Logger } from '../../services/Logger.js'
 import GObject from 'gi://GObject'
 import St from 'gi://St'
 import Clutter from 'gi://Clutter'
@@ -7,7 +6,8 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
 import EmptyState from './_EmptyState.js'
 import NotificationControls from './_NotificationControls.js'
 import NotificationList from './_NotificationList.js'
-import { NotificationService } from '../../services/NotificationService.js'
+
+import NotificationService from '../../services/NotificationService.js'
 
 export default GObject.registerClass(
   class NotificationButton extends PanelMenu.Button {
@@ -58,33 +58,24 @@ export default GObject.registerClass(
     _buildMenu () {
       this.menu.box.add_style_class_name('notification-menu')
 
-      try {
-        this._notifControl = new NotificationControls({
-          onToggleMute: () => this._service.toggleMute(),
-          onClear: () => this._service.clearAll(),
-        })
-        this._notifList = new NotificationList(this._service.getMessageList())
-        this._placeholder = new EmptyState()
+      this._notifControl = new NotificationControls({
+        onToggleMute: () => this._service.toggleMute(),
+        onClear: () => this._service.clearAll(),
+      })
+      this._notifList = new NotificationList(this._service.getMessageList())
+      this._placeholder = new EmptyState()
 
-        // append elements
+      // append elements
 
-        this.menu.box.add_child(this._notifList.el)
-        this.menu.box.add_child(this._placeholder.el)
-        this.menu.box.add_child(this._notifControl.el)
+      this.menu.box.add_child(this._notifList.el)
+      this.menu.box.add_child(this._placeholder.el)
+      this.menu.box.add_child(this._notifControl.el)
 
-        // bind events
+      // bind events
 
-        this._syncEmpty()
-        this._syncClear()
-        this._service.onChangeMute((state) => this._notifControl.updateMuteButton(state))
-      } catch (e) {
-        Logger.log(`Error building menu: ${e}`)
-        Logger.log(`Stack: ${e.stack}`)
-      }
-    }
-
-    destroy () {
-      super.destroy()
+      this._syncEmpty()
+      this._syncClear()
+      this._service.onChangeMute((state) => this._notifControl.updateMuteButton(state))
     }
 
     _syncEmpty () {

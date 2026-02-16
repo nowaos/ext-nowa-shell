@@ -1,12 +1,11 @@
 import St from 'gi://St'
 import Clutter from 'gi://Clutter'
-import GLib from 'gi://GLib'
 import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js'
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 
-import _BaseView from '../_BaseView.js'
+import BaseView from '../_BaseView.js'
 
-export class TimersSettingsDialog extends _BaseView {
+export default class TimersSettingsDialog extends BaseView {
   // props: sunsetTime, sunriseTime, isEnabled
   // callbacks: onSave(sunsetTime, sunriseTime, isEnabled)
 

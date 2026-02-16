@@ -1,7 +1,7 @@
-import _BaseView from "../_BaseView.js"
+import BaseView from "../_BaseView.js"
 import St from 'gi://St'
 
-export default class NotificationControls extends _BaseView {
+export default class NotificationControls extends BaseView {
   constructor (callbacks) {
     super(callbacks)
   }

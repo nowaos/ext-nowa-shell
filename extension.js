@@ -1,6 +1,5 @@
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js'
 
-import { Logger } from './src/services/Logger.js'
 import { CalendarManager } from './src/modules/CalendarManager.js'
 import { PowerButtonManager } from './src/modules/PowerButtonManager.js'
 import { NotificationsManager } from './src/modules/NotificationsManager.js'
@@ -8,6 +7,8 @@ import { RoundedScreen } from './src/modules/RoundedScreen.js'
 import { ShellTweaks } from './src/modules/ShellTweaks.js'
 import { ThemeScheduler } from './src/modules/ThemeScheduler.js'
 import { DashToDockThemer } from './src/modules/DashToDockThemer.js'
+
+import Logger from './src/services/Logger.js'
 
 /**
  * Nowa Shell - GNOME Shell interface customizations

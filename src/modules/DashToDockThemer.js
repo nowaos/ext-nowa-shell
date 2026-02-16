@@ -1,14 +1,14 @@
 import Gio from 'gi://Gio'
 import St from 'gi://St'
 
-import { _BaseModule } from './_BaseModule.js'
+import BaseModule from './_BaseModule.js'
 
 /**
  * Dash to Dock Tweaks
  *
  * Simplifies Dash to Dock appearance by loading custom CSS
  */
-export class DashToDockThemer extends _BaseModule {
+export class DashToDockThemer extends BaseModule {
   #themeContext
   #appliedTheme
 
@@ -48,44 +48,35 @@ export class DashToDockThemer extends _BaseModule {
 
   #applyStyles () {
     if (this.#appliedTheme) {
-      this.log(this.name, 'Styles already applied, skipping')
+      this.log('Styles already applied, skipping')
 
       return
     }
 
-    try {
-      const theme = this.#themeContext.get_theme()
-      const stylesheetFile = this.#getStylesheetFile()
+    const theme = this.#themeContext.get_theme()
+    const stylesheetFile = this.#getStylesheetFile()
 
-      if (!stylesheetFile.query_exists(null)) {
-        this.log(`File NOT found: ${stylesheetPath}`)
+    if (!stylesheetFile.query_exists(null)) {
+      this.log(`File NOT found: ${stylesheetFile.get_path()}`)
 
-        return
-      }
-
-      theme.load_stylesheet(stylesheetFile)
-      this.#appliedTheme = theme
-    } catch (error) {
-      console.error(`ERROR: ${error}`)
-      console.error(`Stack: ${error.stack}`)
+      return
     }
+
+    theme.load_stylesheet(stylesheetFile)
+    this.#appliedTheme = theme
   }
 
   #removeStyles () {
     if (!this.#appliedTheme) {
-      this.log(this.name, 'No styles to remove')
+      this.log('No styles to remove')
 
       return
     }
 
-    try {
-      const stylesheetFile = this.#getStylesheetFile()
+    const stylesheetFile = this.#getStylesheetFile()
 
-      this.#appliedTheme.unload_stylesheet(stylesheetFile)
-      this.#appliedTheme = null
-    } catch (error) {
-      console.error(`Error: ${error}`)
-    }
+    this.#appliedTheme.unload_stylesheet(stylesheetFile)
+    this.#appliedTheme = null
   }
 
   #getStylesheetFile () {

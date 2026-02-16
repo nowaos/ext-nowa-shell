@@ -2,12 +2,15 @@ import St from 'gi://St'
 import Gio from 'gi://Gio'
 import GLib from 'gi://GLib'
 import SignalManager from '../../services/SignalManager.js'
-import _BaseView from '../_BaseView.js'
-import { Logger } from '../../services/Logger.js'
+import BaseView from '../_BaseView.js'
+import Logger from '../../services/Logger.js'
 
-export class CustomCalendar extends _BaseView {
+const DCLICK_TIMEOUT = 500
+
+export default class CustomCalendar extends BaseView {
   _originalHeaderFormat
   _todayButton
+  _activeButtonTimeouts = new Set()
 
   constructor (dateMenu, calendar) {
     super({ dateMenu, calendar })
@@ -20,6 +23,7 @@ export class CustomCalendar extends _BaseView {
   onDestroy () {
     this._updateHeader(false)
     this._removeTodayButton()
+    this._clearAllButtonTimeouts()
     this._unregisterClickListeners()
     this._signalManager.disconnectAll()
   }
@@ -81,34 +85,41 @@ export class CustomCalendar extends _BaseView {
   _checkAndReregisterListeners () {
     const firstButton = this.calendar._buttons[0]
 
-    if (firstButton && !firstButton._nowaBPE) {
+    if (firstButton && !firstButton._nowaClickEvent) {
+      this._clearAllButtonTimeouts()
       this._registerClickListeners()
     }
   }
 
   _registerClickListeners () {
     this.calendar._buttons.forEach(button => {
-      if (button._nowaBPE) return
+      if (button._nowaClickEvent) return
 
-      button._nowaBPE = button.connect('clicked', () => {
+      button._nowaClickEvent = button.connect('clicked', () => {
         button._nowaClickCount = (button._nowaClickCount || 0) + 1
 
         if (button._nowaClickCount === 2) {
           this._openAppCalendar(button._date)
           button._nowaClickCount = 0
+
           if (button._nowaClickTimeout) {
             GLib.Source.remove(button._nowaClickTimeout)
             button._nowaClickTimeout = null
+            this._activeButtonTimeouts.delete(button)
           }
         } else {
           if (button._nowaClickTimeout) GLib.Source.remove(button._nowaClickTimeout)
 
-          button._nowaClickTimeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 300, () => {
+          button._nowaClickTimeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, DCLICK_TIMEOUT, () => {
             button._nowaClickCount = 0
             button._nowaClickTimeout = null
+            this._activeButtonTimeouts.delete(button)
+
 
             return GLib.SOURCE_REMOVE
           })
+
+          this._activeButtonTimeouts.add(button)
         }
       })
     })
@@ -116,11 +127,22 @@ export class CustomCalendar extends _BaseView {
 
   _unregisterClickListeners () {
     this.calendar._buttons.forEach(button => {
-      if (button._nowaBPE) {
-        button.disconnect(button._nowaBPE)
-        button._nowaBPE = null
+      if (button._nowaClickEvent) {
+        button.disconnect(button._nowaClickEvent)
+        button._nowaClickEvent = null
       }
     })
+  }
+
+  _clearAllButtonTimeouts () {
+    this._activeButtonTimeouts.forEach(button => {
+      if (button._nowaClickTimeout) {
+        GLib.Source.remove(button._nowaClickTimeout)
+        button._nowaClickTimeout = null
+      }
+    })
+
+    this._activeButtonTimeouts.clear()
   }
 
   _openAppCalendar (date) {

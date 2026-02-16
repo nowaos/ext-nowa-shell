@@ -2,14 +2,14 @@ import Gio from 'gi://Gio'
 import St from 'gi://St'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 
-import { _BaseModule } from './_BaseModule.js'
+import BaseModule from './_BaseModule.js'
 
 const CORNER_RADIUS = 6
 
 /**
 * RoundedScreen module - adds rounded corners to screen edges
 */
-export class RoundedScreen extends _BaseModule {
+export class RoundedScreen extends BaseModule {
   #corners = {}
   #monitorListener = null
 

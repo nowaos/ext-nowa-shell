@@ -1,8 +1,8 @@
-import _BaseView from "../_BaseView.js"
+import BaseView from "../_BaseView.js"
 import St from 'gi://St'
 import Clutter from 'gi://Clutter'
 
-export default class EmptyState extends _BaseView {
+export default class EmptyState extends BaseView {
   onCreate () {
     this.el = new St.BoxLayout({
       vertical: true,

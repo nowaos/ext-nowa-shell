@@ -1,13 +1,13 @@
 import Gio from 'gi://Gio'
 import GLib from 'gi://GLib'
 
-import { _BaseModule } from './_BaseModule.js'
-import { CustomDarkToggle } from '../views/CustomDarkToggle/index.js'
+import BaseModule from './_BaseModule.js'
+import CustomDarkToggle from '../views/CustomDarkToggle/index.js'
 
 /**
 * ThemeScheduler module - automatically switches between light/dark theme based on time
 */
-export class ThemeScheduler extends _BaseModule {
+export class ThemeScheduler extends BaseModule {
   #interfaceSettings
   #layoutManager
   #alignmentTimer

@@ -1,4 +1,4 @@
-import { Logger } from './Logger.js'
+import Logger from './Logger.js'
 import * as MessageList from 'resource:///org/gnome/shell/ui/messageList.js'
 import Gio from 'gi://Gio'
 
@@ -7,7 +7,7 @@ import Gio from 'gi://Gio'
  *
  * Provides access to GNOME Shell's notification system using MessageList
  */
-export class NotificationService {
+export default class NotificationService {
   #messageList = null
   #messagesCount = 0
   #settings
@@ -75,8 +75,7 @@ export class NotificationService {
 
       return true
     } catch (e) {
-      Logger.debug(this.#name, `Error initializing: ${e}`)
-      Logger.debug(this.#name, `Stack: ${e.stack}`)
+      Logger.error('NotificationServite init', e)
 
       return false
     }
@@ -104,7 +103,7 @@ export class NotificationService {
       try {
         this.#messageList.destroy()
       } catch (e) {
-        Logger.debug(this.#name, `Error destroying MessageList: ${e}`)
+        Logger.error('NotificationService destroy', e)
       }
     }
 
@@ -120,16 +119,12 @@ export class NotificationService {
    */
   connect (signal, callback, owner) {
     if (!this.#messageList) {
-      Logger.log('NotificationService: Cannot connect - not initialized')
+      Logger.debug(this.#name, 'Cannot connect, not initialized')
 
       return
     }
 
-    try {
-      this.#messageList.connectObject(signal, callback, owner)
-    } catch (e) {
-      Logger.log(`NotificationService: Error connecting to signal: ${e}`)
-    }
+    this.#messageList.connectObject(signal, callback, owner)
   }
 
   onChangeMute (callback, firstSync = true) {
@@ -196,11 +191,7 @@ export class NotificationService {
       return
     }
 
-    try {
-      this.#messageList.clear()
-    } catch (e) {
-      Logger.debug(this.#name, `Error clearing notifications: ${e}`)
-    }
+    this.#messageList.clear()
   }
 
   /**
