@@ -75,8 +75,7 @@ export default class NotificationService {
 
       return true
     } catch (e) {
-      Logger.debug(this.#name, `Error initializing: ${e}`)
-      Logger.debug(this.#name, `Stack: ${e.stack}`)
+      Logger.error('NotificationServite init', e)
 
       return false
     }
@@ -104,7 +103,7 @@ export default class NotificationService {
       try {
         this.#messageList.destroy()
       } catch (e) {
-        Logger.debug(this.#name, `Error destroying MessageList: ${e}`)
+        Logger.error('NotificationService destroy', e)
       }
     }
 
@@ -120,7 +119,7 @@ export default class NotificationService {
    */
   connect (signal, callback, owner) {
     if (!this.#messageList) {
-      Logger.log('NotificationService: Cannot connect - not initialized')
+      Logger.debug(this.#name, 'Cannot connect, not initialized')
 
       return
     }

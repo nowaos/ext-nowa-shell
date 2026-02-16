@@ -111,7 +111,7 @@ export class PowerButtonManager extends BaseModule {
 
   #modifyMenu () {
     if (!this.#shutdownItem.menu) {
-      Logger.log(this.#name, 'Shutdown button has no menu')
+      Logger.debug(this.#name, 'Shutdown button has no menu')
 
       return
     }
@@ -180,7 +180,7 @@ export class PowerButtonManager extends BaseModule {
       })
       this.#originalMenuItems = []
     } catch (e) {
-      Logger.log(this.#name, `Error during disable: ${e}`)
+      Logger.debug(this.#name, `Error during disable: ${e}`)
     }
   }
 

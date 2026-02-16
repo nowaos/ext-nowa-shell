@@ -1,6 +1,5 @@
 import BaseModule from './_BaseModule.js'
 
-import Logger from '../services/Logger.js'
 import DateMenuService from '../services/DateMenuService.js'
 
 /**
@@ -57,8 +56,6 @@ export class CalendarManager extends BaseModule {
    * Disable calendar management and restore original state
    */
   disable () {
-    Logger.log('CalendarManager: Disabling')
-
     this.signalManager.disconnectAll()
     this.#hideClocks(false)
     this.#hideWeater(false)
