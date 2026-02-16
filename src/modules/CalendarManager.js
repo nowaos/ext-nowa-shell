@@ -45,11 +45,9 @@ export class CalendarManager extends _BaseModule {
       this.#hideWeater(enabled)
     })
 
-    setTimeout(() => {
-      this.#hideMessageList(true)
-      this.#hideClocks(isHideClocks)
-      this.#hideWeater(isHideWeather)
-    }, 200)
+    this.#hideMessageList(true)
+    this.#hideClocks(isHideClocks)
+    this.#hideWeater(isHideWeather)
 
     this.#dateMenuService.enable()
   }
