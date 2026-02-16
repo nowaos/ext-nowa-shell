@@ -58,29 +58,24 @@ export default GObject.registerClass(
     _buildMenu () {
       this.menu.box.add_style_class_name('notification-menu')
 
-      try {
-        this._notifControl = new NotificationControls({
-          onToggleMute: () => this._service.toggleMute(),
-          onClear: () => this._service.clearAll(),
-        })
-        this._notifList = new NotificationList(this._service.getMessageList())
-        this._placeholder = new EmptyState()
+      this._notifControl = new NotificationControls({
+        onToggleMute: () => this._service.toggleMute(),
+        onClear: () => this._service.clearAll(),
+      })
+      this._notifList = new NotificationList(this._service.getMessageList())
+      this._placeholder = new EmptyState()
 
-        // append elements
+      // append elements
 
-        this.menu.box.add_child(this._notifList.el)
-        this.menu.box.add_child(this._placeholder.el)
-        this.menu.box.add_child(this._notifControl.el)
+      this.menu.box.add_child(this._notifList.el)
+      this.menu.box.add_child(this._placeholder.el)
+      this.menu.box.add_child(this._notifControl.el)
 
-        // bind events
+      // bind events
 
-        this._syncEmpty()
-        this._syncClear()
-        this._service.onChangeMute((state) => this._notifControl.updateMuteButton(state))
-      } catch (e) {
-        Logger.log(`Error building menu: ${e}`)
-        Logger.log(`Stack: ${e.stack}`)
-      }
+      this._syncEmpty()
+      this._syncClear()
+      this._service.onChangeMute((state) => this._notifControl.updateMuteButton(state))
     }
 
     destroy () {

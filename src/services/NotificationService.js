@@ -125,11 +125,7 @@ export class NotificationService {
       return
     }
 
-    try {
-      this.#messageList.connectObject(signal, callback, owner)
-    } catch (e) {
-      Logger.log(`NotificationService: Error connecting to signal: ${e}`)
-    }
+    this.#messageList.connectObject(signal, callback, owner)
   }
 
   onChangeMute (callback, firstSync = true) {
@@ -196,11 +192,7 @@ export class NotificationService {
       return
     }
 
-    try {
-      this.#messageList.clear()
-    } catch (e) {
-      Logger.debug(this.#name, `Error clearing notifications: ${e}`)
-    }
+    this.#messageList.clear()
   }
 
   /**
