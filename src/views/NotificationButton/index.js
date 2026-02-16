@@ -78,10 +78,6 @@ export default GObject.registerClass(
       this._service.onChangeMute((state) => this._notifControl.updateMuteButton(state))
     }
 
-    destroy () {
-      super.destroy()
-    }
-
     _syncEmpty () {
       const isEmpty = this._service.isEmpty()
 
