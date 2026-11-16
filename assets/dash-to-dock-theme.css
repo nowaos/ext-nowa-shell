@@ -4,17 +4,17 @@
   border-radius: 18px !important;
 }
 
-#dashtodockContainer .dash-item-container .overview-tile:hover .overview-icon,
-#dashtodockContainer .dash-item-container .show-apps:hover .overview-icon {
+#dashtodockContainer #dash .dash-item-container .overview-tile:hover .overview-icon,
+#dashtodockContainer #dash .dash-item-container .show-apps:hover .overview-icon {
   background-color: transparent !important;
 }
 
-#dashtodockContainer .dash-item-container .overview-tile.focused .overview-icon,
-#dashtodockContainer .dash-item-container .app-well-app.focused > .overview-icon {
+#dashtodockContainer #dash .dash-item-container .overview-tile.focused .overview-icon,
+#dashtodockContainer #dash .dash-item-container .app-well-app.focused > .overview-icon {
   background-color: transparent !important;
 }
 
-#dashtodockContainer .show-apps:active .overview-icon,
-#dashtodockContainer .show-apps:checked .overview-icon {
+#dashtodockContainer #dash .show-apps:active .overview-icon,
+#dashtodockContainer #dash .show-apps:checked .overview-icon {
   background-color: transparent !important;
 }
